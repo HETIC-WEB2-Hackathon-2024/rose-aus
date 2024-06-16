@@ -3,6 +3,7 @@ import { Box, CssBaseline, Toolbar } from "@mui/material";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import { TopMenu } from "./TopMenu";
 import { Dashboard } from "./dashboard/Dashboard";
+import { AppTheme } from "./Theme";
 
 const router = createBrowserRouter([
   {
@@ -40,14 +41,16 @@ const MainBox = styled(Box)`
 
 function Layout() {
   return (
-    <MainBox>
-      <CssBaseline />
-      <TopMenu />
-      <Box component="main">
-        <Toolbar />
-        <Outlet />
-      </Box>
-    </MainBox>
+    <AppTheme>
+      <MainBox>
+        <CssBaseline />
+        <TopMenu />
+        <Box component="main">
+          <Toolbar />
+          <Outlet />
+        </Box>
+      </MainBox>
+    </AppTheme>
   );
 }
 

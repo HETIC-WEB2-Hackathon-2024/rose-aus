@@ -1,0 +1,81 @@
+name: Continous Deployment
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push-images:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set correct api domain in frontend image
+        working-directory: frontend
+        run: |
+          echo '{ "domain": "https://api.rose.aus.floless.fr" }' > public/api-info.json
+      - name: Build and push frontend image
+        working-directory: frontend
+        env:
+          IMAGE_TAG: ghcr.io/hetic-web2-hackathon-2024/aus-rose/aus-rose-frontend:${{ github.sha }}
+        run: |
+          docker image build -t $IMAGE_TAG .
+          docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_SECRET_TOKEN }} ghcr.io
+          docker image push $IMAGE_TAG
+
+      - name: Build and push web-service image
+        working-directory: web-service
+        env: 
+          IMAGE_TAG: ghcr.io/hetic-web2-hackathon-2024/aus-rose/aus-rose-web-service:${{ github.sha }}
+        run: |
+          docker image build -t $IMAGE_TAG .
+          docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_SECRET_TOKEN }} ghcr.io
+          docker image push $IMAGE_TAG
+  
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build-and-push-images
+    steps:
+      - name: Deploy to Scaleway
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_SECRET_TOKEN }} ghcr.io
+            docker image pull ghcr.io/hetic-web2-hackathon-2024/aus-rose/aus-rose-frontend:${{ github.sha }}
+            docker image pull ghcr.io/hetic-web2-hackathon-2024/aus-rose/aus-rose-web-service:${{ github.sha }}
+            docker container stop sotracteur-frontend && docker container rm sotracteur-frontend || echo "Aucun conteneur à stopper"
+            docker container run \
+              --network web \
+              --name sotracteur-frontend \
+              -d \
+              --label traefik.enable=true \
+              --label traefik.http.routers.sotracteur-frontend.tls=true \
+              --label traefik.http.routers.sotracteur-frontend.tls.certresolver=letsencrypt \
+              --label traefik.http.routers.sotracteur-frontend.rule="Host(\`rose.aus.floless.fr\`)" \
+              --label traefik.http.services.sotracteur-frontend.loadbalancer.server.port=80 \
+              --label traefik.docker.network=web \
+              ghcr.io/hetic-web2-hackathon-2024/aus-rose/aus-rose-frontend:${{ github.sha }}     
+            touch .env
+            echo "RDB_USER=aus-user" > .env
+            echo "RDB_PASSWORD=aus2025" >> .env
+            echo "RDB_DATABASE=aus" >> .env
+            echo "RDB_HOST=postgres-aus" >> .env
+            echo "RDB_PORT=5432" >> .env
+            docker container stop aus-rose-web-service && docker container rm aus-rose-web-service || echo "Aucun conteneur à stopper"
+            docker container run \
+              --env-file .env \
+              --network web \
+              --name aus-rose-web-service \
+              -d \
+              --label traefik.enable=true \
+              --label traefik.http.routers.aus-rose-web-service.tls=true \
+              --label traefik.http.routers.aus-rose-web-service.tls.certresolver=letsencrypt \
+              --label traefik.http.routers.aus-rose-web-service.rule="Host(\`api.rose.aus.floless.fr\`)" \
+              --label traefik.http.services.aus-rose-web-service.loadbalancer.server.port=3000 \
+              --label traefik.docker.network=web \
+              ghcr.io/hetic-web2-hackathon-2024/aus-rose/aus-rose-web-service:${{ github.sha }}
