@@ -22,7 +22,7 @@ jobs:
           IMAGE_TAG: ghcr.io/hetic-web2-hackathon-2024/aus-rose/aus-rose-frontend:${{ github.sha }}
         run: |
           docker image build -t $IMAGE_TAG .
-          docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_SECRET_TOKEN }} ghcr.io
+          docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }} ghcr.io
           docker image push $IMAGE_TAG
 
       - name: Build and push web-service image
@@ -31,7 +31,7 @@ jobs:
           IMAGE_TAG: ghcr.io/hetic-web2-hackathon-2024/aus-rose/aus-rose-web-service:${{ github.sha }}
         run: |
           docker image build -t $IMAGE_TAG .
-          docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_SECRET_TOKEN }} ghcr.io
+          docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }} ghcr.io
           docker image push $IMAGE_TAG
   
   deploy:
@@ -45,7 +45,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_SECRET_TOKEN }} ghcr.io
+            docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }} ghcr.io
             docker image pull ghcr.io/hetic-web2-hackathon-2024/aus-rose/aus-rose-frontend:${{ github.sha }}
             docker image pull ghcr.io/hetic-web2-hackathon-2024/aus-rose/aus-rose-web-service:${{ github.sha }}
             docker container stop sotracteur-frontend && docker container rm sotracteur-frontend || echo "Aucun conteneur à stopper"
