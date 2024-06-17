@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { Box, CssBaseline, Toolbar } from "@mui/material";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import { TopMenu } from "./TopMenu";
-import { Dashboard } from "./dashboard/Dashboard";
+import { Dashboard } from "./dashboard";
 import { AppTheme } from "./Theme";
 
 const router = createBrowserRouter([
