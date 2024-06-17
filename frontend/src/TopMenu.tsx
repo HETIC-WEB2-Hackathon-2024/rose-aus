@@ -49,8 +49,8 @@ export function TopMenu() {
       title: "Entreprises",
     },
     {
-      id: "notification",
-      title: "Notification",
+      id: "selection",
+      title: "Ma sélection",
     },
   ];
   const navigate = useNavigate();
@@ -59,7 +59,7 @@ export function TopMenu() {
   }
   return (
     <AppBar component="nav">
-      <MenuToolbar sx={{ justifyContent: "space-between" }}>
+      <MenuToolbar>
         <Typography variant="h6">AuS</Typography>
         <Box>
           {menuItems.map((item) => (

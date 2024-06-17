@@ -23,12 +23,8 @@ const router = createBrowserRouter([
         element: <Box>Paramètres</Box>,
       },
       {
-        path: "entreprises",
-        element: <Box>Entreprises</Box>,
-      },
-      {
-        path: "notification",
-        element: <Box>Notification</Box>,
+        path: "selection",
+        element: <Box>Ma sélection</Box>,
       },
     ],
   },

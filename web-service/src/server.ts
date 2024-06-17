@@ -1,6 +1,7 @@
 import express from "express";
 import { auth } from "express-oauth2-jwt-bearer";
 import cors from "cors";
+import { getFirstOffres } from "./database";
 
 const port = 3000;
 const app = express();
@@ -18,8 +19,13 @@ const jwtCheck = auth({
 // enforce that all incoming requests are authenticated
 app.use(jwtCheck);
 
-app.get("/authorized", function (_, res) {
-  res.send({ success: "Secured Resource" });
+app.get("/v1/offres", async function (_, res) {
+  try {
+    const offres = await getFirstOffres();
+    res.send(offres);
+  } catch (error) {
+    res.status(500).send({ error: "Internal Server Error", reason: error });
+  }
 });
 
 app.listen(port, () => {
