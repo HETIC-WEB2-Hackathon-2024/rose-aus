@@ -1,11 +1,8 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Box, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
-import InboxIcon from '@mui/icons-material/Inbox';
-import DraftsIcon from '@mui/icons-material/Drafts';
+import { Box, Divider, List, ListItem, ListItemText } from "@mui/material";
 
-import React, { Fragment } from "react";
+import React from "react";
 import { authenticatedGet } from "../auth/helper";
-import { Padding } from "@mui/icons-material";
 
 export function Dashboard() {
   const { getAccessTokenSilently } = useAuth0();
@@ -28,7 +25,7 @@ export function Dashboard() {
           email: user?.email || ""
           }).toString() as string)
         setData(document.data);
-        console.log(document.data);
+        console.log(document);
         
       } catch (error) {
         setError(`Error from web service: ${error}`);
@@ -46,19 +43,17 @@ export function Dashboard() {
       {error ? (
         `Dashboard: response from API (with auth) ${error}`
       ) : (
-        <List sx={{display:"flex",flexDirection:"column",gap:"1rem",paddingLeft:"25px"}} alignItems={"flex-start"}>
-          {
-        data?.map(element => (
-          <>
-            <ListItem disablePadding sx={{display:"flex",flexDirection:"column"}}   alignItems={"flex-start"}>
-                <ListItemText primary={element.entreprise}></ListItemText>
-                <ListItemText primary={element.titre_emploi} />
-                <ListItemText primary={element.description_courte} />
-            </ListItem>
-            <Divider/>
-          </>
-    ) )
-  }
+        <List sx={{display:"flex",flexDirection:"column",gap:"1rem",paddingLeft:"25px"}}>
+          { data?.map(element => (
+            <>
+              <ListItem disablePadding sx={{display:"flex",flexDirection:"column"}}   alignItems={"flex-start"}>
+                  <ListItemText primary={element.entreprise}></ListItemText>
+                  <ListItemText primary={element.titre_emploi} />
+                  <ListItemText primary={element.description_courte} />
+              </ListItem>
+              <Divider/>
+            </>
+        ))}
         </List>
       )}
     </Box>
