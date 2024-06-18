@@ -2,6 +2,7 @@ import express from "express";
 import { auth } from "express-oauth2-jwt-bearer";
 import cors from "cors";
 import { getFirstOffres } from "./database";
+import { getOffres } from "./database";
 
 const port = 3000;
 const app = express();
@@ -22,6 +23,15 @@ app.use(jwtCheck);
 app.get("/v1/offres", async function (_, res) {
   try {
     const offres = await getFirstOffres();
+    res.send(offres);
+  } catch (error) {
+    res.status(500).send({ error: "Internal Server Error", reason: error });
+  }
+});
+
+app.get("/v2/offres", async function (_, res) {
+  try {
+    const offres = await getOffres();
     res.send(offres);
   } catch (error) {
     res.status(500).send({ error: "Internal Server Error", reason: error });
