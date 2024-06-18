@@ -64,7 +64,7 @@ export function TopMenu() {
         <Box>
           {menuItems.map((item) => (
             <MenuButton onClick={() => onMenuItemClick(item.id)} key={item.id}>
-              {item.title}
+              {item.title}nhuhu
             </MenuButton>
           ))}
         </Box>
