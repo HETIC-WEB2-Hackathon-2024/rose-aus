@@ -1,5 +1,13 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Box, Divider, List, ListItem, ListItemText } from "@mui/material";
+import {
+  Box,
+  Divider,
+  LinearProgress,
+  List,
+  ListItem,
+  ListItemText,
+  Stack,
+} from "@mui/material";
 
 import React from "react";
 import { authenticatedGet } from "../auth/helper";
@@ -9,24 +17,24 @@ export function Dashboard() {
   const [loading, setLoading] = React.useState(true);
   const [data, setData] = React.useState<any[] | null>(null);
   const [error, setError] = React.useState<string | null>(null);
-  const {user} = useAuth0()
+  const { user } = useAuth0();
   console.log(user);
-  
-  
 
-  
   React.useEffect(() => {
     async function callApi() {
       try {
         const token = await getAccessTokenSilently();
         console.log(token);
-        
-        const document = await authenticatedGet(token, "/v1/offre_poste?" + new URLSearchParams({
-          email: user?.email || ""
-          }).toString() as string)
+
+        const queries = new URLSearchParams({
+          email: user?.email || "",
+        }).toString();
+        const document = await authenticatedGet(
+          token,
+          "/v1/offre_poste?" + queries
+        );
         setData(document.data);
         console.log(document);
-        
       } catch (error) {
         setError(`Error from web service: ${error}`);
       } finally {
@@ -36,32 +44,50 @@ export function Dashboard() {
     callApi();
   }, []);
 
-  return loading ? (
-    <Box>chargement...</Box>
-  ) : (
+  if (loading) {
+    return (
+<div style={{display: "flex", alignItems: "center",justifyContent: "center", height: "100vh"}}>
+    <Stack sx={{ width: '100%', color: 'grey.500' }} spacing={2}>
+      <LinearProgress color="secondary" />
+      <LinearProgress color="success" />
+      <LinearProgress color="inherit" />
+    </Stack>
+    </div>
+
+    );
+  }
+  return (
     <Box>
       {error ? (
         `Dashboard: response from API (with auth) ${error}`
       ) : (
-        <List sx={{display:"flex",flexDirection:"column",gap:"1rem",paddingLeft:"25px"}}>
-          { data?.map(element => (
+        <List
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "1rem",
+            paddingLeft: "25px",
+          }}
+        >
+          {data?.map((element) => (
             <>
-              <ListItem disablePadding sx={{display:"flex",flexDirection:"column"}}   alignItems={"flex-start"}>
-                  <ListItemText primary={element.entreprise}></ListItemText>
-                  <ListItemText primary={element.titre_emploi} />
-                  <ListItemText primary={element.description_courte} />
+              <ListItem
+                disablePadding
+                sx={{ display: "flex", flexDirection: "column" }}
+                alignItems={"flex-start"}
+              >
+                <ListItemText primary={element.entreprise}></ListItemText>
+                <ListItemText primary={element.titre_emploi} />
+                <ListItemText primary={element.description_courte} />
               </ListItem>
-              <Divider/>
+              <Divider />
             </>
-        ))}
+          ))}
         </List>
       )}
     </Box>
   );
 }
-
-
-
 
 // [
 //   "candidat_id",

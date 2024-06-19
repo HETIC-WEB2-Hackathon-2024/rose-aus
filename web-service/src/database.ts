@@ -38,11 +38,9 @@ export function getCandidateAppliedOffers(id : string): Promise<any[]> {
 }
 
 export async function findUserByEmail(email : string) : Promise<any> {
-  try {
-    const res =  query(`SELECT id FROM candidat WHERE email = ${email} limit 1;`)
-    return res
-  }
-  catch(e){
-    return e 
-  }
+    const q = `SELECT id FROM candidat WHERE email = '${email}' LIMIT 1`
+    const res =  await query(q)
+    if (res.length === 0)
+      throw new Error("User not found")
+    return res.pop().id
 }

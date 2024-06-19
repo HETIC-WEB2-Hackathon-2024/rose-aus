@@ -10,6 +10,8 @@ const app = express();
 // See more on CORS: https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
 app.use((req, res, next) => {
   // console.log(req)
+  // console.log("stated");
+  
   next()
 }
 )
@@ -42,5 +44,5 @@ app.get("/v1/offres", async function (_, res) {
 });
 app.use("/v1", dashboard)
 app.listen(port, () => {
-  console.log(`Server started on http://localhost:${port}`);
+  console.log(`Server started on http://localhost:${port}  - pid: ${process.pid}`);
 });
