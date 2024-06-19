@@ -33,3 +33,13 @@ export function getFirstOffres(count: number = 3): Promise<any[]> {
 export function getOffres(count: number = 20, offset: number = 0): Promise<any[]> {
   return query(`SELECT * FROM offre LIMIT ${count} OFFSET ${offset}`);
 }
+
+export function getOffresBySearch(search: string = '', count: number = 20, offset: number = 0): Promise<any[]> {
+  return query(`SELECT * FROM offre 
+                WHERE 
+                LIMIT ${count} OFFSET ${offset}`);
+}
+
+export function getOffresByTitle(title: string, count: number = 50): Promise<any[]> {
+  return query(`SELECT * FROM offre WHERE titre_emploi LIKE '%${title}%' LIMIT ${count} `);
+}
