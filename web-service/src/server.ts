@@ -3,6 +3,7 @@ import { auth } from "express-oauth2-jwt-bearer";
 import cors from "cors";
 import { getFirstOffres } from "./database";
 import dashboard from "./dashboard"
+import { getOffres, getOffresByTitle, getOffresBySearch } from "./database";
 const port = 3000;
 const app = express();
 
@@ -43,6 +44,34 @@ app.get("/v1/offres", async function (_, res) {
   }
 });
 app.use("/v1", dashboard)
+
+app.get("/v2/offres", async function (_, res) {
+  try {
+    const offres = await getOffres();
+    res.send(offres);
+  } catch (error) {
+    res.status(500).send({ error: "Internal Server Error", reason: error });
+  }
+});
+
+app.get("/v1/offres/search/global/:search", async function (req, res) {
+  try {
+    const offres = await getOffresBySearch(req.params.search);
+    res.send(offres);
+  } catch (error) {
+    res.status(500).send({ error: "Internal Server Error", reason: error });
+  }
+});
+
+app.get("/v1/offres/search/title/:search", async function (req, res) {
+  try {
+    const offres = await getOffresByTitle(req.params.search);
+    res.send(offres);
+  } catch (error) {
+    res.status(500).send({ error: "Internal Server Error", reason: error });
+  }
+});
+
 app.listen(port, () => {
   console.log(`Server started on http://localhost:${port}  - pid: ${process.pid}`);
 });
