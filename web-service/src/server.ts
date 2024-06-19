@@ -1,7 +1,7 @@
 import express from "express";
 import { auth } from "express-oauth2-jwt-bearer";
 import cors from "cors";
-import { getFirstOffres } from "./database";
+import { getFirstOffres, getCandidats } from "./database";
 
 const port = 3000;
 const app = express();
@@ -23,6 +23,16 @@ app.get("/v1/offres", async function (_, res) {
   try {
     const offres = await getFirstOffres();
     res.send(offres);
+  } catch (error) {
+    res.status(500).send({ error: "Internal Server Error", reason: error });
+  }
+});
+
+
+app.get("/v1/candidats", async function (_, res) {
+  try {
+    const candidats = await getCandidats();
+    res.send(candidats);
   } catch (error) {
     res.status(500).send({ error: "Internal Server Error", reason: error });
   }

@@ -33,3 +33,8 @@ export function getFirstOffres(count: number = 3): Promise<any[]> {
 export function getOffres(count: number = 20, offset: number = 0): Promise<any[]> {
   return query(`SELECT * FROM offre LIMIT ${count} OFFSET ${offset}`);
 }
+
+
+export function getCandidats(): Promise<any[]> {
+  return query(`SELECT * FROM candidat`);
+}

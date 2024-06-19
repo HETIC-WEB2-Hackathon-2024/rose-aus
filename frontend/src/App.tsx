@@ -3,6 +3,7 @@ import { Box, CssBaseline, Toolbar } from "@mui/material";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import { TopMenu } from "./TopMenu";
 import { Dashboard } from "./dashboard";
+import { Parametres } from "./parametres/Parametres";
 import { AppTheme } from "./Theme";
 
 const router = createBrowserRouter([
@@ -20,7 +21,7 @@ const router = createBrowserRouter([
       },
       {
         path: "parametres",
-        element: <Box>Paramètres</Box>,
+        element: <Parametres />,
       },
       {
         path: "selection",
