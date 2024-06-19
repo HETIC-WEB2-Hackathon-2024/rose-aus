@@ -3,8 +3,6 @@ import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import { authenticatedGet } from "../auth/helper";
 import "./index.css";
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
 import { Job } from "./Job";
 import { ComboBox } from "./Search";
 
@@ -72,8 +70,6 @@ export function Offres() {
             <div className="card-wrapper">
               {filteredData?.map((offre: any) => (
                 <div key={offre.id} className="card" onClick={() => handleOffreClick(offre)}>
-                  <Card>
-                    <CardContent>
                       <div className="card-content">
                         <h3>{offre.titre_emploi}</h3>
                         <div className="infos">
@@ -82,8 +78,6 @@ export function Offres() {
                         </div>
                         <p>{offre.description_courte}</p>
                       </div>
-                    </CardContent>
-                  </Card>
                 </div>
               ))}
             </div>
