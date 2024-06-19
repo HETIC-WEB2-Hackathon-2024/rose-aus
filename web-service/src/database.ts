@@ -35,8 +35,12 @@ export function getOffres(count: number = 20, offset: number = 0): Promise<any[]
 }
 
 export function getOffresBySearch(search: string = '', count: number = 20, offset: number = 0): Promise<any[]> {
-  return query(`SELECT * FROM offre 
-                WHERE 
+  return query(`SELECT o.id, o.titre_emploi, m.metier, o.entreprise, o.lieu, o.description_courte, o.contrat, o.type_contrat, o.description, o.commune_id 
+                FROM offre AS o 
+                JOIN metier AS m ON o.metier_id=m.id
+                WHERE o.titre_emploi LIKE '${search}'
+                AND m.metier LIKE '${search}'
+                AND o.description LIKE '${search}'
                 LIMIT ${count} OFFSET ${offset}`);
 }
 
