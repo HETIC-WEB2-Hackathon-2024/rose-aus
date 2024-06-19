@@ -133,3 +133,25 @@ export function Dashboard() {
     </Box>
   );
 }
+
+// [
+//   "candidat_id",
+//   "offre_id",
+//   "id",
+//   "nom",
+//   "prenom",
+//   "telephone",
+//   "email",
+//   "pays",
+//   "date_naissance",
+//   "secteur_id",
+//   "metier_id",
+//   "titre_emploi",
+//   "entreprise",
+//   "lieu",
+//   "description_courte",
+//   "contrat",
+//   "type_contrat",
+//   "description",
+//   "commune_id"
+// ]
