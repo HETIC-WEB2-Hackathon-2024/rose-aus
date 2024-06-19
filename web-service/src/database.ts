@@ -41,5 +41,5 @@ export function getOffresBySearch(search: string = '', count: number = 20, offse
 }
 
 export function getOffresByTitle(title: string, count: number = 50): Promise<any[]> {
-  return query(`SELECT * FROM offre WHERE titre_emploi LIKE '%${title}%' LIMIT ${count} `);
+  return query(`SELECT id, titre_emploi FROM offre WHERE titre_emploi LIKE '%${title}%' LIMIT ${count} `);
 }
