@@ -41,7 +41,8 @@ export function getOffresBySearch(search: string = '', count: number = 20, offse
                 WHERE o.titre_emploi LIKE '${search}'
                 AND m.metier LIKE '${search}'
                 AND o.description LIKE '${search}'
-                LIMIT ${count} OFFSET ${offset}`);
+                LIMIT ${count} OFFSET ${offset}
+                `);
 }
 
 export function getOffresByTitle(title: string, count: number = 50): Promise<any[]> {
