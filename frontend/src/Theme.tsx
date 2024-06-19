@@ -2,9 +2,9 @@ import { PaletteOptions, ThemeProvider, createTheme } from "@mui/material";
 
 const palette: PaletteOptions = {
   primary: {
-    light: "#fee0f8",
-    main: "#EF07D6",
-    dark: "#7800ac",
+    light: "#fd96bb",
+    main: "#d22a69",
+    dark: "#971f5d",
   },
   secondary: {
     light: "#e2fbf6",
