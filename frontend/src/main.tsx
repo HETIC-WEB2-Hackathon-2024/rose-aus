@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { App } from "./App.tsx";
+import { StyledEngineProvider } from '@mui/material/styles';
 import { Auth0Provider } from "@auth0/auth0-react";
 import { Authenticated } from "./auth/Authenticated.tsx";
 
@@ -15,7 +16,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       }}
     >
       <Authenticated>
-        <App />
+        <StyledEngineProvider injectFirst>
+          <App />
+        </StyledEngineProvider>
       </Authenticated>
     </Auth0Provider>
   </React.StrictMode>
