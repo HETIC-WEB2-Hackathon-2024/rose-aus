@@ -4,7 +4,9 @@ import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import { TopMenu } from "./TopMenu";
 import { Dashboard } from "./dashboard/Dashboard";
 import { AppTheme } from "./Theme";
-
+import { AddSelection } from "./selection/add";
+import { DeSelection } from "./selection/delete";
+import { Selection } from "./selection";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -24,8 +26,16 @@ const router = createBrowserRouter([
       },
       {
         path: "selection",
-        element: <Box>Ma sélection</Box>,
+        element: <Selection />,
       },
+      {
+        path: "selection/add/:id_offre",
+        element: <AddSelection />,
+      },
+      {
+        path: "selection/remove/:id_offre",
+        element: <DeSelection />,
+      }
     ],
   },
 ]);
