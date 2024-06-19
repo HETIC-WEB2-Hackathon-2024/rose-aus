@@ -67,3 +67,7 @@ console.log({q});
     throw new Error("Offer not found")
   return res
 }
+
+export function getOffres(count: number = 20, offset: number = 0): Promise<any[]> {
+  return query(`SELECT * FROM offre LIMIT ${count} OFFSET ${offset}`);
+}
