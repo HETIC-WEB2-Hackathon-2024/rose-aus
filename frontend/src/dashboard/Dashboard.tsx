@@ -17,6 +17,8 @@ export function Dashboard() {
   const [loading, setLoading] = React.useState(true);
   const [data, setData] = React.useState<any[] | null>(null);
   const [error, setError] = React.useState<string | null>(null);
+  const [communes, setCommunes] = React.useState<any[] | null>(null);
+  const [offersByCommune, setOffersByCommune] = React.useState<any[]>([]);
   const { user } = useAuth0();
   console.log(user);
 
@@ -33,7 +35,20 @@ export function Dashboard() {
           token,
           "/v1/offre_poste?" + queries
         );
+        const res = await authenticatedGet(
+          token,
+          "/v1/candidat-offres-communes?" + queries
+        );
+
+        const offersByCommune = await authenticatedGet(
+          token,
+          "/v1/commune-offers?" + queries
+        );
+        console.log(offersByCommune);
+        setOffersByCommune(offersByCommune.data);
+        
         setData(document.data);
+        setCommunes(res.data);
         console.log(document);
       } catch (error) {
         setError(`Error from web service: ${error}`);
@@ -61,6 +76,7 @@ export function Dashboard() {
       {error ? (
         `Dashboard: response from API (with auth) ${error}`
       ) : (
+      <div style={{display: "grid", gap: 10}}>
         <List
           sx={{
             display: "flex",
@@ -84,7 +100,36 @@ export function Dashboard() {
             </>
           ))}
         </List>
+        <Divider />
+        <Divider />
+        <Divider />
+        <Divider />
+        <List
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "1rem",
+            paddingLeft: "25px",
+          }}
+        >
+          {offersByCommune?.map((element) => (
+            <>
+              <ListItem
+                disablePadding
+                sx={{ display: "flex", flexDirection: "column" }}
+                alignItems={"flex-start"}
+              >
+                <ListItemText primary={element.entreprise}></ListItemText>
+                <ListItemText primary={element.titre_emploi} />
+                <ListItemText primary={element.description_courte} />
+              </ListItem>
+              <Divider />
+            </>
+          ))}
+        </List>
+      </div>
       )}
+      {JSON.stringify(communes)}
     </Box>
   );
 }
