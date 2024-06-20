@@ -76,3 +76,24 @@ export function getOffres(count: number = 20, offset: number = 0): Promise<any[]
 export function getCandidats(): Promise<any[]> {
   return query(`SELECT * FROM candidat`);
 }
+
+
+export async function updateCandidat(id: string, data: any): Promise<any> {
+  const { nom, prenom, email, telephone, pays } = data;
+  const q = `
+    UPDATE candidat
+    SET 
+      nom = '${nom}', 
+      prenom = '${prenom}', 
+      email = '${email}', 
+      telephone = '${telephone}', 
+      pays = '${pays}'
+    WHERE id = ${id}
+    RETURNING *;
+  `;
+  console.log(`Executing query: ${q}`);
+  const res = await query(q);
+  if (res.length === 0) throw new Error("Candidat not found");
+  return res.pop();
+}
+
