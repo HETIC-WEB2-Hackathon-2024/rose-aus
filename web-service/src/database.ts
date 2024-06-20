@@ -38,16 +38,18 @@ export function getCandidateAppliedOffers(id : string): Promise<any[]> {
 }
 
 export async function findUserByEmail(email : string) : Promise<any> {
-    const q = `SELECT id FROM candidat WHERE email = '${email}' LIMIT 1`
-    const res =  await query(q)
-    if (res.length === 0)
-      throw new Error("User not found")
-    return res.pop().id
+  const q = `SELECT id FROM candidat WHERE email = '${email}' LIMIT 1`
+  const res =  await query(q)
+  if (res.length === 0)
+    throw new Error("User not found")
+  return res.pop().id
 }
 
 export async function findUserCommune(id: string): Promise<any> {
-  
-  const q = `SELECT nom_commune_postal, c.id FROM commune as c JOIN candidat_communes as cc ON c.id = cc.commune_id JOIN candidat as cd ON cc.candidat_id = cd.id WHERE cd.id = ${id}`
+  const q = `SELECT nom_commune_postal, c.id FROM commune as c 
+    JOIN candidat_communes as cc ON c.id = cc.commune_id 
+    JOIN candidat as cd ON cc.candidat_id = cd.id 
+    WHERE cd.id = ${id}`
   const res =  await query(q)
   if (res.length === 0)
     throw new Error("Commune not found")
@@ -56,11 +58,10 @@ export async function findUserCommune(id: string): Promise<any> {
 }
 
 export async function findOffersByCommune(communeId: string): Promise<any> {
-
   const q = `select * from offre as o 
-join commune as co ON co.id = o.commune_id
-WHERE co.id = '${communeId}' LIMIT 10`
-console.log({q});
+  join commune as co ON co.id = o.commune_id
+  WHERE co.id = '${communeId}' LIMIT 10`
+  console.log({q});
 
   const res =  await query(q)
   if (res.length === 0)
