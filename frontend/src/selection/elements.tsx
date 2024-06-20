@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { ChargingStation, Done, LocalDining, QuestionMark } from '@mui/icons-material';
+import { Done, QuestionMark } from '@mui/icons-material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import Fab from '@mui/material/Fab';
 import React, { useEffect } from 'react';
