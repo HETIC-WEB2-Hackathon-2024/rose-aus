@@ -1,12 +1,11 @@
-import React from 'react';
-import Fab from '@mui/material/Fab';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useAuth0 } from "@auth0/auth0-react";
+import { Done } from '@mui/icons-material';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import Fab from '@mui/material/Fab';
+import React, { useEffect } from 'react';
 import { authenticatedPost } from "../auth/helper";
-import { Done, PianoOffRounded, Warning } from '@mui/icons-material';
-import { useEffect } from 'react';
 
-export function ActionSelection({offre, id_offre}:any) {   
+export function ActionSelection({id_offre}:any) {   
     const [select, setSelect] = React.useState(true);
   const { getAccessTokenSilently } = useAuth0();
   const { user} = useAuth0();
