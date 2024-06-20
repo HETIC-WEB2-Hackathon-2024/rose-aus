@@ -45,10 +45,6 @@ export function TopMenu() {
       title: "Paramètres",
     },
     {
-      id: "entreprises",
-      title: "Entreprises",
-    },
-    {
       id: "selection",
       title: "Ma sélection",
     },
