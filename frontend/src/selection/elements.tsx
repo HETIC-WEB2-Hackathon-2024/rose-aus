@@ -11,37 +11,6 @@ export function ActionSelection({id_offre}:any) {
   const { getAccessTokenSilently } = useAuth0();
   const { user} = useAuth0();
 
-//   React.useEffect(() => {
-//     async function callApi() {
-//         try {
-//             const token = await getAccessTokenSilently()
-      
-//             authenticatedPost(token, `/v1/selection/check/${id_offre}`,{email : user?.email}).then((resp)=>{
-//                 setSelect(resp.response)
-//             });    
-//       } catch (error) {
-//         setSelect(false)
-//       }
-//     }
-//     callApi();
-//   }, []);
-
-//   async function isSelected(id_offre:any) {
-//     try {
-//       const token = await getAccessTokenSilently()
-
-//       authenticatedPost(token, `/v1/selection/check/${id_offre}`,{email : user?.email}).then((resp)=>{
-//           if (resp.response) {
-//             return true
-//             } else {
-//               return false
-//             }    
-//       });    
-//     } catch (error) {
-//       return false
-//     }      
-//   }
-  
     async function SelectionActionFetch (id_offre:any, action:string) {        
         try {
             const token = await getAccessTokenSilently()
@@ -92,18 +61,3 @@ export function DeSelection({id_offre}:any) {
     </a>
     )
 }
-
-// export function AddSelection({id_offre}:any) {
-  
-//     function addselectUrlReturner(id_offre :any) {
-//         return `/selection/add/${id_offre}`
-//       }
-
-//     return (
-//         <a href={addselectUrlReturner(id_offre)}>
-//         <Fab aria-label="like">
-//             <FavoriteIcon />
-//         </Fab>
-//     </a>
-//     )
-// }

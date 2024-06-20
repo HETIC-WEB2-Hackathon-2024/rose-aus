@@ -4,7 +4,6 @@ import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import { TopMenu } from "./TopMenu";
 import { Dashboard } from "./dashboard";
 import { AppTheme } from "./Theme";
-// import { AddSelection } from "./selection/add";
 import { DeSelection } from "./selection/delete";
 import { Selection } from "./selection";
 import { Offres } from "./offres";
@@ -30,10 +29,6 @@ const router = createBrowserRouter([
         path: "selection",
         element: <Selection />,
       },
-      // {
-      //   path: "selection/add/:id_offre",
-      //   element: <AddSelection />,
-      // },
       {
         path: "selection/remove/:id_offre",
         element: <DeSelection />,
