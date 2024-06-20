@@ -53,9 +53,6 @@
   cursor: pointer;
 }
 
-.card:selected {
-  border-color: rgb(249, 190, 200);
-}
 
 .card-content {
   padding: 20px;
@@ -97,13 +94,16 @@ p {
   
 }
 
-
-
 .search {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
+}
+
+.add-button {
+  margin-top: 20px;
+  float: right;
 }
 
 @media screen and (max-width: 600px) {
@@ -115,12 +115,10 @@ p {
 
 @media screen and (max-width: 477px) {
   .search {
-    margin-top: 100px;
+    margin-top: 50px;
   }
   
 }
-
-/* Existing styles remain unchanged */
 
 .modal-content {
   position: absolute;
@@ -129,10 +127,9 @@ p {
   transform: translate(-50%, -50%);
   width: 80%;
   max-width: 500px;
-  background-color: white; /* Background color white */
-  border: 1px solid #ccc;
+  background-color: white;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  padding: 20px;
+  padding: 30px;
   overflow-y: auto;
   max-height: 80vh;
 }
@@ -184,6 +181,5 @@ p {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 20px;
   padding: 50px;
 }
