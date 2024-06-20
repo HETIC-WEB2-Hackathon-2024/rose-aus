@@ -123,16 +123,6 @@ export function Offres() {
             <div className="card-wrapper">
               {filteredData?.map((offre: any) => (
                 <div key={offre.id} className="card" onClick={() => handleOffreClick(offre)}>
-<<<<<<< Updated upstream
-                      <div className="card-content">
-                        <h3>{offre.titre_emploi}</h3>
-                        <div className="infos">
-                          <span>{offre.contrat}&nbsp;-&nbsp;{offre.type_contrat}</span>
-                          <span>{offre.lieu}</span>
-                        </div>
-                        <p>{offre.description_courte}</p>
-                      </div>
-=======
                   <div className="card-content">
                     <h3>{offre.titre_emploi}</h3>
                     <div className="infos">
@@ -141,19 +131,13 @@ export function Offres() {
                     </div>
                     <p>{offre.description_courte}</p>
                   </div>
->>>>>>> Stashed changes
                 </div>
               ))}
             </div>
           )}
         </div>
-<<<<<<< Updated upstream
-        <div className="card-content">
-          <Job offre={selectedOffre} />
-=======
         <div className={`offre-details ${isMobile ? "mobile" : ""}`}>
           {!isMobile && <Job offre={selectedOffre} />}
->>>>>>> Stashed changes
         </div>
 
         <Modal
@@ -171,15 +155,6 @@ export function Offres() {
             <Job offre={selectedOffre} />
           </Box>
         </Modal>
-      </div>
-
-      <div className="pagination">
-        <Button onClick={handlePreviousPage} disabled={page === 0}>
-          Précédent
-        </Button>
-        <Button onClick={handleNextPage} disabled={filteredData && filteredData.length < itemsPerPage}>
-          Suivant
-        </Button>
       </div>
     </div>
   );

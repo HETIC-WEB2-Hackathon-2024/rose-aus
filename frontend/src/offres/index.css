@@ -85,8 +85,6 @@ h3 {
 
 p {
   opacity: 0.7;
-<<<<<<< Updated upstream
-=======
 }
 
 @media screen and (max-width: 1100px) {
@@ -180,5 +178,4 @@ p {
     height: auto;
     overflow-y: visible;
   }
->>>>>>> Stashed changes
 }

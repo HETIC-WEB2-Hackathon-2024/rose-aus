@@ -30,9 +30,6 @@ export function getFirstOffres(count: number = 3): Promise<any[]> {
   return query(`SELECT * FROM offre LIMIT ${count}`);
 }
 
-<<<<<<< Updated upstream
-export function getOffres(count: number = 20, offset: number = 0): Promise<any[]> {
-=======
 export function getSelectedOffres(user_id: number): Promise<any[]> {
   return query(`SELECT * FROM selection s, offre o WHERE o.id=s.id_offre AND s.id_user = ${user_id}`);
 }
@@ -58,7 +55,6 @@ export function disSelectedOffre(id_user: any, id_offre: any): Promise<any[]> {
 }
 
 export function getOffres(count: number = 300, offset: number = 0): Promise<any[]> {
->>>>>>> Stashed changes
   return query(`SELECT * FROM offre LIMIT ${count} OFFSET ${offset}`);
 }
 
