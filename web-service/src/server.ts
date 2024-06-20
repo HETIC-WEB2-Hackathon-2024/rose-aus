@@ -2,7 +2,7 @@ import express from "express";
 import { auth } from "express-oauth2-jwt-bearer";
 import cors from "cors";
 import { disSelectedOffre, getCandidatFromEmail, getFirstOffres,getSelectedOffres, isOffreSelectable, isOffreSelected, selecteOffre } from "./database";
-import { getOffres } from "./database";
+import { getOffres, getOffresByTitle, getOffresBySearch } from "./database";
 
 const port = 3000;
 const app = express();
@@ -112,6 +112,24 @@ app.post("/v1/selection/check/:id_offre", async function (req, res) {
       }
    catch (error) {
     res.status(500).send({status:500, error: "Internal Server Error", reason: error,response:false });
+
+   }})
+   
+app.get("/v1/offres/search/global/:search", async function (req, res) {
+  try {
+    const offres = await getOffresBySearch(req.params.search);
+    res.send(offres);
+  } catch (error) {
+    res.status(500).send({ error: "Internal Server Error", reason: error });
+  }
+});
+
+app.get("/v1/offres/search/title/:search", async function (req, res) {
+  try {
+    const offres = await getOffresByTitle(req.params.search);
+    res.send(offres);
+  } catch (error) {
+    res.status(500).send({ error: "Internal Server Error", reason: error });
   }
 });
 

@@ -37,9 +37,9 @@ const router = createBrowserRouter([
   },
 ]);
 const MainBox = styled(Box)`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+  // display: flex;
+  // flex-direction: column;
+  // height: 100%;
 `;
 
 function Layout() {

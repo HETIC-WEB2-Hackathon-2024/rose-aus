@@ -9,7 +9,7 @@ export function Job({ offre }: JobProps) {
   return (
     <div className="offre-details">
       {offre ? (
-            <div className="card-content">
+            <div>
               <h3>{offre.titre_emploi}</h3>
               <div className="infos">
                 <span>{offre.contrat}&nbsp;-&nbsp;{offre.type_contrat}</span>

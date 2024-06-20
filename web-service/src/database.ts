@@ -57,3 +57,18 @@ export function disSelectedOffre(id_user:any,id_offre:any): Promise<any[]> {
 export function getOffres(count: number = 20, offset: number = 0): Promise<any[]> {
   return query(`SELECT * FROM offre LIMIT ${count} OFFSET ${offset}`);
 }
+
+export function getOffresBySearch(search: string = '', count: number = 20, offset: number = 0): Promise<any[]> {
+  return query(`SELECT o.id, o.titre_emploi, m.metier, o.entreprise, o.lieu, o.description_courte, o.contrat, o.type_contrat, o.description, o.commune_id 
+                FROM offre AS o 
+                JOIN metier AS m ON o.metier_id=m.id
+                WHERE o.titre_emploi LIKE '${search}'
+                AND m.metier LIKE '${search}'
+                AND o.description LIKE '${search}'
+                LIMIT ${count} OFFSET ${offset}
+                `);
+}
+
+export function getOffresByTitle(title: string, count: number = 50): Promise<any[]> {
+  return query(`SELECT id, titre_emploi FROM offre WHERE titre_emploi LIKE '%${title}%' LIMIT ${count} `);
+}
