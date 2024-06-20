@@ -9,7 +9,8 @@ export function ComboBox({ options, onInputChange, value }) {
       options={options}
       value={value}
       className="search-bar"
-      onInputChange={(_, value) => onInputChange(value)}
+      onInputChange={(_, newValue) => onInputChange(newValue)}
+      isOptionEqualToValue={(option, value) => option.label === value || value === ''}
       renderInput={(params) => <TextField {...params} label="Recherche par poste" />}
       sx={{ width: 400 }}
     />
@@ -24,7 +25,8 @@ export function CityComboBox({ options, onInputChange, value }) {
       options={options}
       value={value}
       className="search-bar"
-      onInputChange={(_, value) => onInputChange(value)}
+      onInputChange={(_, newValue) => onInputChange(newValue)}
+      isOptionEqualToValue={(option, value) => option.label === value || value === ''}
       renderInput={(params) => <TextField {...params} label="Recherche par ville" />}
       sx={{ width: 400 }}
     />

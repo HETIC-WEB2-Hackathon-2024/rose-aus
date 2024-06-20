@@ -16,7 +16,7 @@
 }
 
 .offres-list {
-  height: 80vh;
+  height: 100vh;
   width: 100%;
   padding: 20px;
   overflow-y: scroll; /* Use scroll instead of auto */
@@ -178,4 +178,12 @@ p {
     height: auto;
     overflow-y: visible;
   }
+}
+
+.pagination-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  padding: 50px;
 }

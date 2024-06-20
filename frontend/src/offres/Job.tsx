@@ -12,6 +12,7 @@ export function Job({ offre }: JobProps) {
             <div>
               <h3>{offre.titre_emploi}</h3>
               <div className="infos">
+                <span>{offre.entreprise}</span>
                 <span>{offre.contrat}&nbsp;-&nbsp;{offre.type_contrat}</span>
                 <span>{offre.lieu}</span>
               </div>

@@ -1,8 +1,7 @@
 import express from "express";
 import { auth } from "express-oauth2-jwt-bearer";
 import cors from "cors";
-import { getFirstOffres } from "./database";
-import { getOffres, getOffresByTitle, getOffresBySearch } from "./database";
+import { getFirstOffres, getOffres, getOffresByTitle, getOffresBySearch, getTotalOffresCount } from "./database";
 
 const port = 3000;
 const app = express();
@@ -29,10 +28,12 @@ app.get("/v1/offres", async function (_, res) {
   }
 });
 
-app.get("/v2/offres", async function (_, res) {
+app.get("/v2/offres", async function (req, res) {
   try {
-    const offres = await getOffres();
-    res.send(offres);
+    const { limit = 30, offset = 0 } = req.query;
+    const offres = await getOffres(parseInt(limit as string), parseInt(offset as string));
+    const total = await getTotalOffresCount();
+    res.send({ offres, total: total[0].count });
   } catch (error) {
     res.status(500).send({ error: "Internal Server Error", reason: error });
   }

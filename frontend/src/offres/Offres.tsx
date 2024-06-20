@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Box, Modal, IconButton, Button } from "@mui/material";
+import { Box, Modal, IconButton, Pagination } from "@mui/material";
 import { useEffect, useState } from "react";
 import { authenticatedGet } from "../auth/helper";
 import CloseIcon from '@mui/icons-material/Close';
@@ -10,8 +10,9 @@ import { ComboBox, CityComboBox } from "./Search";
 export function Offres() {
   const { getAccessTokenSilently } = useAuth0();
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState<any[] | null>(null);
-  const [filteredData, setFilteredData] = useState<any[] | null>(null);
+  const [allData, setAllData] = useState<any[]>([]);
+  const [data, setData] = useState<any[]>([]);
+  const [filteredData, setFilteredData] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [selectedOffre, setSelectedOffre] = useState<any | null>(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
@@ -19,18 +20,23 @@ export function Offres() {
   const [page, setPage] = useState(0);
   const itemsPerPage = 30;
 
+  const [searchTitle, setSearchTitle] = useState<string>('');
+  const [searchCity, setSearchCity] = useState<string>('');
+  const [availableCities, setAvailableCities] = useState<any[]>([]);
+
   useEffect(() => {
     async function callApi() {
       try {
         const token = await getAccessTokenSilently();
-        const document = await authenticatedGet(token, `/v2/offres?limit=${itemsPerPage}&offset=${page * itemsPerPage}`);
-        setData(document);
-        setFilteredData(document); // Initialize filtered data with the same data
-        if (document && document.length > 0) {
-          setSelectedOffre(document[0]); // Set the first offer as the default selected offer
+        const response = await authenticatedGet(token, `/v2/offres?limit=100000`);
+        const { offres } = response;
+        setAllData(offres || []);
+        setFilteredData(offres || []);
+        if (offres && offres.length > 0) {
+          setSelectedOffre(offres[0]);
         }
       } catch (error) {
-        setError(`Error from web service: ${error}`);
+        setError(`Error from web service: ${error.message}`);
       } finally {
         setLoading(false);
       }
@@ -43,7 +49,7 @@ export function Offres() {
 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, [getAccessTokenSilently, page]);
+  }, [getAccessTokenSilently]);
 
   const handleOffreClick = (offre: any) => {
     setSelectedOffre(offre);
@@ -56,29 +62,47 @@ export function Offres() {
     setModalOpen(false);
   };
 
-  const handleSearchChange = async (value: string) => {
-    if (value) {
-      const lowercasedValue = value.toLowerCase();
-      const filtered = data?.filter((offre: any) =>
-        offre.titre_emploi.toLowerCase().includes(lowercasedValue)
-      );
-      setFilteredData(filtered || []);
-    } else {
-      setFilteredData(data);
-    }
+  const filterData = () => {
+    const lowercasedTitle = searchTitle.toLowerCase();
+    const lowercasedCity = searchCity.toLowerCase();
+    const filtered = allData.filter((offre: any) => 
+      offre.titre_emploi.toLowerCase().includes(lowercasedTitle) &&
+      offre.lieu.toLowerCase().includes(lowercasedCity)
+    );
+    setFilteredData(filtered);
+    setPage(0);
   };
 
-  const handleCitySearchChange = async (value: string) => {
-    if (value) {
-      const lowercasedValue = value.toLowerCase();
-      const filtered = data?.filter((offre: any) =>
-        offre.lieu.toLowerCase().includes(lowercasedValue)
-      );
-      setFilteredData(filtered || []);
-    } else {
-      setFilteredData(data);
-    }
+  const handleSearchChange = (value: string) => {
+    setSearchTitle(value);
   };
+
+  const handleCitySearchChange = (value: string) => {
+    setSearchCity(value);
+  };
+
+  useEffect(() => {
+    filterData();
+  }, [searchTitle, searchCity]);
+
+  useEffect(() => {
+    const start = page * itemsPerPage;
+    const end = start + itemsPerPage;
+    setData(filteredData.slice(start, end));
+  }, [filteredData, page]);
+
+  useEffect(() => {
+    if (searchTitle) {
+      const lowercasedTitle = searchTitle.toLowerCase();
+      const filteredByTitle = allData.filter((offre: any) =>
+        offre.titre_emploi.toLowerCase().includes(lowercasedTitle)
+      );
+      const cities = getUniqueCities(filteredByTitle);
+      setAvailableCities(cities);
+    } else {
+      setAvailableCities(getUniqueCities(allData));
+    }
+  }, [searchTitle, allData]);
 
   const getUniqueTitles = (data: any[]) => {
     const titles = data.map((offre) => offre.titre_emploi);
@@ -90,14 +114,8 @@ export function Offres() {
     return [...new Set(cities)].map((city) => ({ label: city }));
   };
 
-  const handleNextPage = () => {
-    setPage((prevPage) => prevPage + 1);
-  };
-
-  const handlePreviousPage = () => {
-    if (page > 0) {
-      setPage((prevPage) => prevPage - 1);
-    }
+  const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    setPage(value - 1);
   };
 
   return loading ? (
@@ -106,12 +124,14 @@ export function Offres() {
     <div className="search-wrapper">
       <div className="search">
         <ComboBox
-          options={data ? getUniqueTitles(data) : []}
+          options={getUniqueTitles(allData)}
           onInputChange={handleSearchChange}
+          value={searchTitle}
         />
         <CityComboBox
-          options={data ? getUniqueCities(data) : []}
+          options={availableCities}
           onInputChange={handleCitySearchChange}
+          value={searchCity}
         />
       </div>
 
@@ -121,11 +141,12 @@ export function Offres() {
             `Dashboard: response from API (with auth) ${error}`
           ) : (
             <div className="card-wrapper">
-              {filteredData?.map((offre: any) => (
+              {data?.map((offre: any) => (
                 <div key={offre.id} className="card" onClick={() => handleOffreClick(offre)}>
                   <div className="card-content">
                     <h3>{offre.titre_emploi}</h3>
                     <div className="infos">
+                      <span>{offre.entreprise}</span>
                       <span>{offre.contrat}&nbsp;-&nbsp;{offre.type_contrat}</span>
                       <span>{offre.lieu}</span>
                     </div>
@@ -155,6 +176,15 @@ export function Offres() {
             <Job offre={selectedOffre} />
           </Box>
         </Modal>
+      </div>
+
+      <div className="pagination-wrapper">
+        <Pagination 
+          count={Math.ceil(filteredData.length / itemsPerPage)} 
+          page={page + 1} 
+          onChange={handlePageChange} 
+          color="primary" 
+        />
       </div>
     </div>
   );

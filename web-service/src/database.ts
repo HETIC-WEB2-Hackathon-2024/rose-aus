@@ -30,41 +30,21 @@ export function getFirstOffres(count: number = 3): Promise<any[]> {
   return query(`SELECT * FROM offre LIMIT ${count}`);
 }
 
-export function getSelectedOffres(user_id: number): Promise<any[]> {
-  return query(`SELECT * FROM selection s, offre o WHERE o.id=s.id_offre AND s.id_user = ${user_id}`);
+export function getTotalOffresCount(): Promise<any[]> {
+  return query(`SELECT COUNT(*) FROM offre`);
 }
 
-export function getCandidatFromEmail(email: string): Promise<any[]> {
-  return query(`SELECT * FROM candidat WHERE email= '${email}'`);
-}
-
-export function selecteOffre(id_user: any, id_offre: any): Promise<any[]> {
-  return query(`INSERT INTO selection (id_offre, id_user, date_ajout) VALUES (${id_offre}, ${id_user}, DATE(NOW()))`);
-}
-
-export function isOffreSelected(id_user: any, id_offre: any): Promise<any[]> {
-  return query(`SELECT * FROM selection WHERE id_offre= ${id_offre} AND id_user = ${id_user}`);
-}
-
-export function isOffreSelectable(email_user: any, id_offre: any): Promise<any[]> {
-  return query(`SELECT * FROM candidat c, offre o WHERE c.email= '${email_user}' AND o.id = ${id_offre}`);
-}
-
-export function disSelectedOffre(id_user: any, id_offre: any): Promise<any[]> {
-  return query(`DELETE FROM selection WHERE id_offre= ${id_offre} AND id_user = ${id_user}`);
-}
-
-export function getOffres(count: number = 300, offset: number = 0): Promise<any[]> {
+export function getOffres(count: number = 30, offset: number = 0): Promise<any[]> {
   return query(`SELECT * FROM offre LIMIT ${count} OFFSET ${offset}`);
 }
 
-export function getOffresBySearch(search: string = '', count: number = 30, offset: number = 0): Promise<any[]> {
+export function getOffresBySearch(search: string = '', count: number = 20, offset: number = 0): Promise<any[]> {
   return query(`SELECT o.id, o.titre_emploi, m.metier, o.entreprise, o.lieu, o.description_courte, o.contrat, o.type_contrat, o.description, o.commune_id 
                 FROM offre AS o 
                 JOIN metier AS m ON o.metier_id=m.id
-                WHERE o.titre_emploi LIKE '%${search}%'
-                OR m.metier LIKE '%${search}%'
-                OR o.description LIKE '%${search}%'
+                WHERE o.titre_emploi LIKE '${search}'
+                AND m.metier LIKE '${search}'
+                AND o.description LIKE '${search}'
                 LIMIT ${count} OFFSET ${offset}`);
 }
 
