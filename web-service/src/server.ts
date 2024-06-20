@@ -178,6 +178,3 @@ app.use("/v1", dashboard)
 app.listen(port, () => {
   console.log(`Server started on http://localhost:${port}  - pid: ${process.pid}`);
 });
-app.listen(port, () => {
-  console.log(`Server started on http://localhost:${port}`);
-})
