@@ -15,7 +15,7 @@ export function Dashboard() {
   const [loading, setLoading] = React.useState(true);
   const [data, setData] = React.useState<any[]>([]);
   const [error, setError] = React.useState<string | null>(null);
-  const [communes, setCommunes] = React.useState<any[] | null>([]);
+  const [_communes, setCommunes] = React.useState<any[] | null>([]);
   const [offersByCommune, setOffersByCommune] = React.useState<any[]>([]);
   const { user } = useAuth0();
   console.log(user);
