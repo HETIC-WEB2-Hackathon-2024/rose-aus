@@ -1,7 +1,7 @@
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 
-export function ComboBox({ options, onInputChange }) {
+export function ComboBox({ options, onInputChange }: any) {
   return (
     <Autocomplete
       disablePortal
