@@ -69,8 +69,57 @@ export async function findOffersByCommune(communeId: string): Promise<any> {
   return res
 }
 
+export function getSelectedOffres(user_id:number): Promise<any[]> {
+  return query(`SELECT * FROM selection s, offre o WHERE o.id=s.id_offre AND s.id_user = ${user_id}`);
+}
+
+export function getCandidatFromEmail(email:string): Promise<any[]> {
+  return query(`SELECT * FROM candidat WHERE email= '${email}'`);
+}
+
+export function selecteOffre(id_user:any,id_offre:any): Promise<any[]> {
+  return query(`INSERT INTO selection (id_offre,id_user,date_ajout) VALUES (${id_offre},${id_user}, DATE(NOW()))`);
+}
+
+export function isOffreSelected(id_user:any,id_offre:any): Promise<any[]> {
+  return query(`SELECT * FROM selection WHERE id_offre= ${id_offre} AND id_user = ${id_user}`);
+}
+
+export function isOffreSelectable(email_user:any,id_offre:any): Promise<any[]> {
+  return query(`SELECT * FROM candidat c, offre o WHERE c.email= '${email_user}' AND o.id = ${id_offre}`);
+}
+
+export function disSelectedOffre(id_user:any,id_offre:any): Promise<any[]> {
+  return query(`DELETE FROM selection WHERE id_offre= ${id_offre} AND id_user = ${id_user}`);
+
+}
 export function getOffres(count: number = 20, offset: number = 0): Promise<any[]> {
   return query(`SELECT * FROM offre LIMIT ${count} OFFSET ${offset}`);
+}
+
+
+export function getCandidats(): Promise<any[]> {
+  return query(`SELECT * FROM candidat`);
+}
+
+
+export async function updateCandidat(id: string, data: any): Promise<any> {
+  const { nom, prenom, email, telephone, pays } = data;
+  const q = `
+    UPDATE candidat
+    SET 
+      nom = '${nom}', 
+      prenom = '${prenom}', 
+      email = '${email}', 
+      telephone = '${telephone}', 
+      pays = '${pays}'
+    WHERE id = ${id}
+    RETURNING *;
+  `;
+  console.log(`Executing query: ${q}`);
+  const res = await query(q);
+  if (res.length === 0) throw new Error("Candidat not found");
+  return res.pop();
 }
 
 export function getOffresBySearch(search: string = '', count: number = 20, offset: number = 0): Promise<any[]> {
