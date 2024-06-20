@@ -19,7 +19,6 @@ export function Offres() {
   const [modalOpen, setModalOpen] = useState(false);
   const [page, setPage] = useState(0);
   const itemsPerPage = 30;
-
   const [searchTitle, setSearchTitle] = useState<string>('');
   const [searchCity, setSearchCity] = useState<string>('');
   const [availableCities, setAvailableCities] = useState<any[]>([]);
@@ -97,8 +96,7 @@ export function Offres() {
       const filteredByTitle = allData.filter((offre: any) =>
         offre.titre_emploi.toLowerCase().includes(lowercasedTitle)
       );
-      const cities = getUniqueCities(filteredByTitle);
-      setAvailableCities(cities);
+      setAvailableCities(getUniqueCities(filteredByTitle));
     } else {
       setAvailableCities(getUniqueCities(allData));
     }
@@ -134,7 +132,6 @@ export function Offres() {
           value={searchCity}
         />
       </div>
-
       <div className={`page-wrapper ${isMobile && selectedOffre ? "mobile" : ""}`}>
         <div className={`offres-list ${isMobile && selectedOffre ? "mobile-hide" : ""}`}>
           {error ? (
@@ -160,7 +157,6 @@ export function Offres() {
         <div className={`offre-details ${isMobile ? "mobile" : ""}`}>
           {!isMobile && <Job offre={selectedOffre} />}
         </div>
-
         <Modal
           open={modalOpen}
           onClose={handleClose}
@@ -177,7 +173,6 @@ export function Offres() {
           </Box>
         </Modal>
       </div>
-
       <div className="pagination-wrapper">
         <Pagination 
           count={Math.ceil(filteredData.length / itemsPerPage)} 
