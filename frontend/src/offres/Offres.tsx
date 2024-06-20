@@ -8,20 +8,20 @@ import { Job } from "./Job";
 import { ComboBox, CityComboBox } from "./Search";
 
 export function Offres() {
-  const { getAccessTokenSilently } = useAuth0();
-  const [loading, setLoading] = useState(true);
-  const [allData, setAllData] = useState<any[]>([]);
-  const [data, setData] = useState<any[]>([]);
-  const [filteredData, setFilteredData] = useState<any[]>([]);
-  const [error, setError] = useState<string | null>(null);
-  const [selectedOffre, setSelectedOffre] = useState<any | null>(null);
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [page, setPage] = useState(0);
-  const itemsPerPage = 30;
-  const [searchTitle, setSearchTitle] = useState<string>('');
-  const [searchCity, setSearchCity] = useState<string>('');
-  const [availableCities, setAvailableCities] = useState<any[]>([]);
+  const { getAccessTokenSilently } = useAuth0(); // Hook Auth0 pour obtenir un jeton d'accès
+  const [loading, setLoading] = useState(true); // État pour gérer le chargement
+  const [allData, setAllData] = useState<any[]>([]); // État pour stocker toutes les offres récupérées
+  const [data, setData] = useState<any[]>([]); // État pour stocker les offres paginées
+  const [filteredData, setFilteredData] = useState<any[]>([]); // État pour stocker les offres filtrées selon les critères de recherche
+  const [error, setError] = useState<string | null>(null); // État pour stocker les messages d'erreur
+  const [selectedOffre, setSelectedOffre] = useState<any | null>(null); // État pour stocker l'offre actuellement sélectionnée
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 600); // État pour vérifier si l'affichage est mobile
+  const [modalOpen, setModalOpen] = useState(false); // État pour gérer l'ouverture/fermeture de la modal
+  const [page, setPage] = useState(0); // État pour gérer la pagination
+  const itemsPerPage = 30; // Nombre d'éléments par page
+  const [searchTitle, setSearchTitle] = useState<string>(''); // État pour stocker le terme de recherche par titre
+  const [searchCity, setSearchCity] = useState<string>(''); // État pour stocker le terme de recherche par ville
+  const [availableCities, setAvailableCities] = useState<any[]>([]); // État pour stocker les villes disponibles pour la recherche
 
   useEffect(() => {
     async function callApi() {
