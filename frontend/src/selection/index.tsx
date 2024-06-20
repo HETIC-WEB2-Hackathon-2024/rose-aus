@@ -76,7 +76,7 @@ return `${year}-${month}-${day}`;
         </ListSubheader>
       }
     >
-        {data?.map((offre: any) => (
+        {data? data.length >0 ? data.map((offre: any) => (
             <div className="selection-element">
                 <div className="selection-detail">
                     <ListItem alignItems="flex-start" key={offre.id}>
@@ -115,7 +115,7 @@ return `${year}-${month}-${day}`;
                     <DeSelection id_offre={offre.id}/>
                 </div>
             </div>
-          ))}
+          )) : <span>Aucune offre sélectionnée.</span> : null}
     </List>
         </List>
       )}

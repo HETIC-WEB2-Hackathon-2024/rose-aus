@@ -90,7 +90,6 @@ export function Dashboard() {
           <JobsNear offersByCommune={offersByCommune} />
         </div>
       )}
-      {JSON.stringify(communes)}
     </Box>
   );
 }
