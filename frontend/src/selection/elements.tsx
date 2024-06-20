@@ -1,12 +1,12 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Done } from '@mui/icons-material';
+import { ChargingStation, Done, LocalDining, QuestionMark } from '@mui/icons-material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import Fab from '@mui/material/Fab';
 import React, { useEffect } from 'react';
 import { authenticatedPost } from "../auth/helper";
 
 export function ActionSelection({id_offre}:any) {   
-    const [select, setSelect] = React.useState(true);
+    const [select, setSelect] = React.useState('default');
   const { getAccessTokenSilently } = useAuth0();
   const { user} = useAuth0();
 
@@ -18,9 +18,9 @@ export function ActionSelection({id_offre}:any) {
                 console.log(action);
                 console.log(resp.status);
                 if(action === "remove"){
-                    resp.status===201 ? setSelect(true) : setSelect(false)
+                    resp.status===201 ? setSelect('select') : setSelect('deselect')
                 } else {
-                    resp.status===201 ? setSelect(false) : setSelect(true)
+                    resp.status===201 ? setSelect('deselect') : setSelect('select')
                 }  
             });    
           } catch (error) {
@@ -33,8 +33,7 @@ export function ActionSelection({id_offre}:any) {
               
                 const token = await getAccessTokenSilently();
                 authenticatedPost(token, `/v1/selection/check/${id_offre}`,{email : user?.email}).then((resp)=>{
-                    setSelect(resp.response)
-                    console.log("e,e,z,e", resp.response);
+                    setSelect((resp.response)?'select':'deselect')
                     
                 }).catch(err=>{
                     console.log(err);
@@ -43,16 +42,23 @@ export function ActionSelection({id_offre}:any) {
           }, [id_offre]);
 
 
-        if (select) {
+        if (select === 'select') {
             return (
                 <Fab aria-label="like" key ={id_offre+'button'} onClick={()=>SelectionActionFetch(id_offre,'add')}>
                                 <FavoriteIcon />
                 </Fab>
                 )
-        } else {
+        } else if (select ==='deselect') {
+            
             return (
                 <Fab  aria-label="like" key={id_offre+'button'} onClick={()=>SelectionActionFetch(id_offre,'remove')}>
                                 <FavoriteIcon component={Done}/>
+                </Fab>
+                )
+        } else {
+            return (
+                <Fab disabled aria-label="like" key={id_offre+'button'}>
+                                <FavoriteIcon component={QuestionMark}/>
                 </Fab>
                 )
         }

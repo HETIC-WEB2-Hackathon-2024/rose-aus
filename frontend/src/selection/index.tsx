@@ -84,7 +84,7 @@ return `${year}-${month}-${day}`;
                             <WorkIcon />
                         </ListItemIcon>
                     <ListItemText
-                        primary={<a href={"/offre/"+offre.id}>{offre.titre_emploi}</a>}
+                        primary={<a href={"/offres/"+offre.id}>{offre.titre_emploi}</a>}
                         secondary={
                         <React.Fragment>
                             <Typography

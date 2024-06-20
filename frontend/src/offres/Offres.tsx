@@ -5,6 +5,7 @@ import { authenticatedGet } from "../auth/helper";
 import "./index.css";
 import { Job } from "./Job";
 import { ComboBox } from "./Search";
+import { useParams } from 'react-router-dom';
 
 export function Offres() {
   const { getAccessTokenSilently } = useAuth0();
@@ -13,6 +14,7 @@ export function Offres() {
   const [filteredData, setFilteredData] = useState<any[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [selectedOffre, setSelectedOffre] = useState<any | null>(null);
+  const { id } = useParams();
 
   useEffect(() => {
     async function callApi() {
@@ -21,6 +23,9 @@ export function Offres() {
         const document = await authenticatedGet(token, "/v2/offres");
         setData(document);
         setFilteredData(document); // Initialize filtered data with the same data
+        if (id) {
+          handleOffreClick(document?.find((el:any)=>el.id == id))
+        }
       } catch (error) {
         setError(`Error from web service: ${error}`);
       } finally {

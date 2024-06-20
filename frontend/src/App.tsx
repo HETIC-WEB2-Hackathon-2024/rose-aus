@@ -19,7 +19,7 @@ const router = createBrowserRouter([
         element: <Dashboard />,
       },
       {
-        path: "offres",
+        path: "offres/:id?",
         element: <Offres />,
       },
       {
@@ -33,7 +33,11 @@ const router = createBrowserRouter([
       {
         path: "selection/remove/:id_offre",
         element: <DeSelection />,
-      }
+      },
+      {
+        path: "*",
+        element: <span>Cette page n'existe pas</span>
+      },
     ],
   },
 ]);
