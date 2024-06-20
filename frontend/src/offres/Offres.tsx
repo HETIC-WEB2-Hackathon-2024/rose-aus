@@ -82,7 +82,7 @@ export function Offres() {
   );
 }
 
-function Details({offre, handleOffreClick}:{offre: any, handleOffreClick: (offre: any) => void}) {
+export function Details({offre, handleOffreClick}:{offre: any, handleOffreClick: (offre: any) => void}) {
   return <div key={offre.id} className="card" onClick={() => handleOffreClick(offre)}>
     <div className="card-content">
       <h3>{offre.titre_emploi}</h3>
