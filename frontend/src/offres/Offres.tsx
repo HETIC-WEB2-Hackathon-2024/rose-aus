@@ -69,24 +69,28 @@ export function Offres() {
           ) : (
             <div className="card-wrapper">
               {filteredData?.map((offre: any) => (
-                <div key={offre.id} className="card" onClick={() => handleOffreClick(offre)}>
-                      <div className="card-content">
-                        <h3>{offre.titre_emploi}</h3>
-                        <div className="infos">
-                          <span>{offre.contrat}&nbsp;-&nbsp;{offre.type_contrat}</span>
-                          <span>{offre.lieu}</span>
-                        </div>
-                        <p>{offre.description_courte}</p>
-                      </div>
-                </div>
+                <Details key={offre?.id} offre={offre} handleOffreClick={handleOffreClick} />
               ))}
             </div>
           )}
         </div>
         <div className="card-content">
-          <Job offre={selectedOffre} />
+          <Job key={selectedOffre?.id} offre={selectedOffre} />
         </div>
       </div>
     </div>
   );
+}
+
+function Details({offre, handleOffreClick}:{offre: any, handleOffreClick: (offre: any) => void}) {
+  return <div key={offre.id} className="card" onClick={() => handleOffreClick(offre)}>
+    <div className="card-content">
+      <h3>{offre.titre_emploi}</h3>
+      <div className="infos">
+        <span>{offre.contrat}&nbsp;-&nbsp;{offre.type_contrat}</span>
+        <span>{offre.lieu}</span>
+      </div>
+      <p>{offre.description_courte}</p>
+    </div>
+  </div>;
 }
