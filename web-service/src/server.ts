@@ -54,6 +54,8 @@ app.get("/v1/offres", async function (_, res) {
   }
 });
 
+app.use("/v1", dashboard)
+
 app.get("/v1/candidats", async function (_, res) {
   try {
     const candidats = await getCandidats();
@@ -175,6 +177,7 @@ app.get("/v1/offres/search/title/:search", async function (req, res) {
 });
 
 app.use("/v1", dashboard)
+
 app.listen(port, () => {
   console.log(`Server started on http://localhost:${port}  - pid: ${process.pid}`);
 });
