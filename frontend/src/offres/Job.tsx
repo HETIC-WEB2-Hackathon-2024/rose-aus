@@ -7,7 +7,7 @@ interface JobProps {
 
 export function Job({ offre }: JobProps) {
   return (
-    <div className="offre-details">
+    <div>
       {offre ? (
             <div>
               <h3>{offre.titre_emploi}</h3>
