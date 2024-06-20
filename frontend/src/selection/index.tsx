@@ -4,16 +4,13 @@ import React from "react";
 import ListItem from '@mui/material/ListItem';
 import ListSubheader from '@mui/material/ListSubheader';
 import List from '@mui/material/List';
-import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import WorkIcon from '@mui/icons-material/Work';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
-import Fab from '@mui/material/Fab';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-
-import { authenticatedGet,authenticatedPost } from "../auth/helper";
+import { DeSelection } from "./elements";
+import { authenticatedPost } from "../auth/helper";
 
 export function Selection() {
   const { getAccessTokenSilently } = useAuth0();
@@ -22,13 +19,13 @@ export function Selection() {
   const [error, setError] = React.useState<string | null>(null);
   const { user} = useAuth0();
 
-  function selectUrlReturner(id_offre :number) {
-    return `/selection/add/${id_offre}`
-  }
+//   function selectUrlReturner(id_offre :number) {
+//     return `/selection/add/${id_offre}`
+//   }
 
-  function deselectUrlReturner(id_offre :number) {
-    return `/selection/remove/${id_offre}`
-  }
+//   function deselectUrlReturner(id_offre :number) {
+//     return `/selection/remove/${id_offre}`
+//   }
 
   function dateFormater (date_origin :Date) {
 
@@ -80,49 +77,43 @@ return `${year}-${month}-${day}`;
       }
     >
         {data?.map((offre: any) => (
-            <div>
-
-            <ListItem alignItems="flex-start" key={offre.id}>
-                <ListItemIcon>
-                    <WorkIcon />
-                </ListItemIcon>
-              <ListItemText
-                primary={offre.titre_emploi}
-                secondary={
-                  <React.Fragment>
-                    <Typography
-                      sx={{ display: 'inline' }}
-                      component="span"
-                      variant="body2"
-                      color="text.primary"
-                    >
-                      {offre.contrat} à {offre.lieu.replace(/.* - /,'')} 
-                    </Typography> &nbsp;| &nbsp;
-                    { offre.description_courte}
-                    <br />
-                    <Typography
-                      sx={{ display: 'inline' }}
-                      component="span"
-                      variant="body2"
-                      color="text.secondary"
-                    >
-                       Enregistré le {dateFormater(offre.date_ajout)}
-                        </Typography>
-                  </React.Fragment>
-                }
-              />
-            </ListItem>
-            <a href={selectUrlReturner(offre.id)}>
-                <Fab aria-label="like">
-                    <FavoriteIcon />
-                </Fab>
-            </a>
-            <a href={deselectUrlReturner(offre.id)}>
-                <Fab disabled aria-label="like">
-                    <FavoriteIcon />
-                </Fab>
-            </a>
-            <Divider variant="inset" component="li" />
+            <div className="selection-element">
+                <div className="selection-detail">
+                    <ListItem alignItems="flex-start" key={offre.id}>
+                        <ListItemIcon>
+                            <WorkIcon />
+                        </ListItemIcon>
+                    <ListItemText
+                        primary={<a href={"/offre/"+offre.id}>{offre.titre_emploi}</a>}
+                        secondary={
+                        <React.Fragment>
+                            <Typography
+                            sx={{ display: 'inline' }}
+                            component="span"
+                            variant="body2"
+                            color="text.primary"
+                            >
+                            {offre.contrat} à {offre.lieu.replace(/.* - /,'')} 
+                            </Typography> &nbsp;| &nbsp;
+                            { offre.description_courte}
+                            <br />
+                            <Typography
+                            sx={{ display: 'inline' }}
+                            component="span"
+                            variant="body2"
+                            color="text.secondary"
+                            >
+                            Enregistré le {dateFormater(offre.date_ajout)}
+                                </Typography>
+                        </React.Fragment>
+                        }
+                    />
+                    </ListItem>
+                    <Divider variant="inset" component="li" />
+                </div>
+                <div className="selection-action">
+                    <DeSelection id_offre={offre.id}/>
+                </div>
             </div>
           ))}
     </List>

@@ -2,6 +2,7 @@ import express from "express";
 import { auth } from "express-oauth2-jwt-bearer";
 import cors from "cors";
 import { disSelectedOffre, getCandidatFromEmail, getFirstOffres,getSelectedOffres, isOffreSelectable, isOffreSelected, selecteOffre } from "./database";
+import { getOffres } from "./database";
 
 const port = 3000;
 const app = express();
@@ -33,13 +34,24 @@ app.get("/v1/offres", async function (_, res) {
   }
 });
 
+app.get("/v2/offres", async function (_, res) {
+  try {
+    const offres = await getOffres();
+
+    res.send(offres);
+  } catch (error) {
+    res.status(500).send({ error: "Internal Server Error", reason: error });
+  }
+});
+
 //Obtenir les offres sélectionnées
 app.post("/v1/selections", async function (req, res) {
   try {
     const user = await getCandidatFromEmail(req.body.email.toString())
     const offres = await getSelectedOffres(user[0]['id']);
     res.send(offres);
-  } catch (error) {
+
+} catch (error) {
     res.status(500).send({ error: "Internal Server Error", reason: error });
   }
 });
@@ -80,9 +92,7 @@ app.post("/v1/selection/remove/:id_offre", async function (req, res) {
       const user = await getCandidatFromEmail(req.body.email.toString())
       const isOffreSelected_ = (await isOffreSelected(user[0]['id'],req.params.id_offre)).length > 0
       
-      if (isOffreSelected_) {
-        console.log(isOffreSelected_);
-        
+      if (isOffreSelected_) {        
         disSelectedOffre(user[0]['id'],req.params.id_offre)
         res.status(201).send({status : 201,msg : "Offre déselectionnée"});
       } else {
@@ -90,6 +100,18 @@ app.post("/v1/selection/remove/:id_offre", async function (req, res) {
       }
   } catch (error) {
     res.status(500).send({status:500, error: "Internal Server Error", reason: error,msg:"Offre non déselectionnée, une erreur a survenu." });
+  }
+});
+
+app.post("/v1/selection/check/:id_offre", async function (req, res) {
+  try {
+      const user = await getCandidatFromEmail(req.body.email.toString())
+      const isOffreSelected_ = (await isOffreSelected(user[0]['id'],req.params.id_offre)).length > 0
+      
+      res.status(200).send({status : 200,response : !isOffreSelected_});
+      }
+   catch (error) {
+    res.status(500).send({status:500, error: "Internal Server Error", reason: error,response:false });
   }
 });
 
