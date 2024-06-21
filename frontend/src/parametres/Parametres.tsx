@@ -2,7 +2,11 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Box, Button, TextField } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { authenticatedGet, authenticatedPost } from "../auth/helper";
+
+
+
 import './parametre.css';
+// import { DatePicker } from "@mui/x-date-pickers";
 
 export function Parametres() {
   const { getAccessTokenSilently, user } = useAuth0();
@@ -11,6 +15,7 @@ export function Parametres() {
   const [error, setError] = useState<string | null>(null);
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState<any>({});
+
 
   useEffect(() => {
     async function callApi() {
@@ -47,6 +52,10 @@ export function Parametres() {
       const token = await getAccessTokenSilently();
       console.log(`Sending update request with data: ${JSON.stringify(formData)}`);
       await authenticatedPost(token, `/v1/candidat/${formData.id}`, formData);
+
+      console.log("1");
+      
+
       setEditMode(false);
       setData([formData]);
     } catch (error) {
@@ -99,7 +108,16 @@ export function Parametres() {
                     value={formData.pays}
                     onChange={handleChange}
                   />
-                  <Button className="reus" onClick={handleSave}>Sauvegarder</Button>
+
+
+                  <TextField
+                    label="Communes"
+                    name="commune_id"
+                    value={formData.commune_id}
+                    onChange={handleChange}
+                  />
+
+                  <Button className="reus"onClick={handleSave}>Sauvegarder</Button>
                   <Button onClick={() => setEditMode(false)}>Annuler</Button>
                 </div>
 
@@ -111,6 +129,7 @@ export function Parametres() {
                   <div className="email">Adresse mail : {candidat.email}</div>
                   <div className="phone">Téléphone : {candidat.telephone}</div>
                   <div className="country">Pays : {candidat.pays}</div>
+                  <div className="country">Communes : {candidat.commune_id}</div>
                   <div className="button" onClick={() => setEditMode(true)}>Modifier</div>
                 </>
               )}
