@@ -5,7 +5,7 @@ import { authenticatedGet } from "../auth/helper";
 import CloseIcon from '@mui/icons-material/Close';
 import "./index.css";
 import { Job } from "./Job";
-// import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { ComboBox, CityComboBox } from "./Search";
 export function Offres() {
   const { getAccessTokenSilently } = useAuth0(); // Hook Auth0 pour obtenir un jeton d'accès
@@ -22,7 +22,7 @@ export function Offres() {
   const [searchTitle, setSearchTitle] = useState<string>(''); // État pour stocker le terme de recherche par titre
   const [searchCity, setSearchCity] = useState<string>(''); // État pour stocker le terme de recherche par ville
   const [availableCities, setAvailableCities] = useState<any[]>([]); // État pour stocker les villes disponibles pour la recherche
-
+  const { id } = useParams();
   useEffect(() => {
     async function callApi() {
       try {
@@ -34,7 +34,11 @@ export function Offres() {
         if (offres && offres.length > 0) {
           setSelectedOffre(offres[0]);
         }
-      } catch (error) {
+                if (id) {
+          handleOffreClick(offres?.find((el:any)=>el.id == id))
+        }
+       
+      } catch (error:any) {
         setError(`Error from web service: ${error.message}`);
       } finally {
         setLoading(false);

@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Done, QuestionMark } from '@mui/icons-material';
+import { Delete, Done, QuestionMark } from '@mui/icons-material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import Fab from '@mui/material/Fab';
 import React, { useEffect } from 'react';
@@ -88,7 +88,7 @@ export function DeSelection({setData, id_offre}:any) {
 
     return (
         <Fab aria-label="like" onClick={removeSelection}>
-            <FavoriteIcon component={Done}/>
+            <FavoriteIcon component={Delete}/>
         </Fab>
     )
 }
