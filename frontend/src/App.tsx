@@ -3,7 +3,10 @@ import { Box, CssBaseline, Toolbar } from "@mui/material";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import { TopMenu } from "./TopMenu";
 import { Dashboard } from "./dashboard";
+import { Parametres } from "./parametres/Parametres";
 import { AppTheme } from "./Theme";
+import { DeSelection } from "./selection/delete";
+import { Selection } from "./selection";
 import { Offres } from "./offres";
 
 const router = createBrowserRouter([
@@ -16,16 +19,24 @@ const router = createBrowserRouter([
         element: <Dashboard />,
       },
       {
-        path: "offres",
+        path: "offres/:id?",
         element: <Offres />,
       },
       {
         path: "parametres",
-        element: <Box>Paramètres</Box>,
+        element: <Parametres />,
       },
       {
         path: "selection",
-        element: <Box>Ma sélection</Box>,
+        element: <Selection />,
+      },
+      {
+        path: "selection/remove/:id_offre",
+        element: <DeSelection />,
+      },
+      {
+        path: "*",
+        element: <span>Cette page n'existe pas</span>
       },
     ],
   },

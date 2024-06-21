@@ -1,0 +1,41 @@
+.container {
+  border-radius: 5px;
+  border: 1px solid rgb(209, 209, 209);
+  margin: 2em;
+  padding-left: 2em;
+}
+h3 {
+  padding-top: 1em;
+  margin: 0;
+}
+p {
+  font-size: 13px;
+  color: grey;
+  margin: 0;
+  padding-bottom: 1em;
+}
+
+.container div {
+  margin-bottom: 1em;
+  font-weight: bold;
+}
+
+.button {
+  background-color: #d22a69;
+  color: white;
+  width: 130px;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.modification {
+  /* background-color: #d22a69; */
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-right: 2em;
+}
+

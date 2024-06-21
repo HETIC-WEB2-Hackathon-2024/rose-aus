@@ -3,6 +3,7 @@ import "./index.css";
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 
+import { ActionSelection } from "../selection/elements";
 interface JobProps {
   offre: any;
 }
@@ -24,6 +25,7 @@ export function Job({ offre }: JobProps) {
                 <AddIcon />
               </Fab>
               </div>
+              <ActionSelection id_offre={offre.id}/>
             </div>
       ) : (
         <Box>Sélectionnez une offre pour voir les détails</Box>

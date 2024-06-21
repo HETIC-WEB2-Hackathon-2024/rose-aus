@@ -5,6 +5,7 @@ import { authenticatedGet } from "../auth/helper";
 import CloseIcon from '@mui/icons-material/Close';
 import "./index.css";
 import { Job } from "./Job";
+// import { useParams } from 'react-router-dom';
 import { ComboBox, CityComboBox } from "./Search";
 
 export function Offres() {
@@ -138,18 +139,8 @@ export function Offres() {
             `Dashboard: response from API (with auth) ${error}`
           ) : (
             <div className="card-wrapper">
-              {data?.map((offre: any) => (
-                <div key={offre.id} className="card" onClick={() => handleOffreClick(offre)}>
-                  <div className="card-content">
-                    <h3>{offre.titre_emploi}</h3>
-                    <div className="infos">
-                      <span>{offre.entreprise}</span>
-                      <span>{offre.contrat}&nbsp;-&nbsp;{offre.type_contrat}</span>
-                      <span>{offre.lieu}</span>
-                    </div>
-                    <p>{offre.description_courte}</p>
-                  </div>
-                </div>
+              {filteredData?.map((offre: any) => (
+                <Details key={offre?.id} offre={offre} handleOffreClick={handleOffreClick} />
               ))}
             </div>
           )}
@@ -183,4 +174,17 @@ export function Offres() {
       </div>
     </div>
   );
+}
+
+export function Details({offre, handleOffreClick}:{offre: any, handleOffreClick: (offre: any) => void}) {
+  return <div key={offre.id} className="card" onClick={() => handleOffreClick(offre)}>
+    <div className="card-content">
+      <h3>{offre.titre_emploi}</h3>
+      <div className="infos">
+        <span>{offre.contrat}&nbsp;-&nbsp;{offre.type_contrat}</span>
+        <span>{offre.lieu}</span>
+      </div>
+      <p>{offre.description_courte}</p>
+    </div>
+  </div>;
 }

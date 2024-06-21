@@ -1,5 +1,6 @@
 import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import { Stack, LinearProgress } from "@mui/material";
 
 /**
  * Makes sure user is authenticated before rendering children.
@@ -17,5 +18,12 @@ export function Authenticated({ children }: React.PropsWithChildren) {
   }, [user, isLoading, loginWithRedirect, error]);
 
   if (error) return <div>Oops... {error.message}</div>;
-  return isLoading ? <div>Loading...</div> : <>{children}</>;
+  return isLoading ? <div style={{display: "flex", alignItems: "center",justifyContent: "center", height: "100vh"}}>
+    <Stack sx={{ width: '100%', color: 'grey.500' }} spacing={2}>
+      <LinearProgress color="secondary" />
+      <LinearProgress color="success" />
+      <LinearProgress color="inherit" />
+    </Stack>
+
+  </div> : <>{children}</>;
 }

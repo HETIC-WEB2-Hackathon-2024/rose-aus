@@ -36,3 +36,4 @@ export async function authenticatedPost<T>(
   const data = await response.json();
   return data;
 }
+
