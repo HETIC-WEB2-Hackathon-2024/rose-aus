@@ -13,7 +13,6 @@ import * as React from "react";
 import { useNavigate } from "react-router";
 import { Profile } from "./auth/Profile";
 import { SvgIcon } from "@mui/material";
-import { Height, Padding } from "@mui/icons-material";
 
 // const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 const menuItems: MenuItemProps[] = [
