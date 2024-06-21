@@ -37,7 +37,7 @@ const menuItems: MenuItemProps[] = [
 
 function AppIcon() {
   return (
-  <SvgIcon style={{width:"50px"} } ><svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+  <SvgIcon style={{paddingRight: "10px",width:"100px"} } ><svg version="1.0" xmlns="http://www.w3.org/2000/svg"
     width="500px" height="500px" viewBox="0 0 626.000000 501.000000"
     preserveAspectRatio="xMidYMid meet">
    
