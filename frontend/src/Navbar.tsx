@@ -1,5 +1,6 @@
 import AdbIcon from "@mui/icons-material/Adb";
 import MenuIcon from "@mui/icons-material/Menu";
+import { SvgIcon } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -12,8 +13,6 @@ import Typography from "@mui/material/Typography";
 import * as React from "react";
 import { useNavigate } from "react-router";
 import { Profile } from "./auth/Profile";
-import { SvgIcon } from "@mui/material";
-import { Height, Padding } from "@mui/icons-material";
 
 // const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 const menuItems: MenuItemProps[] = [
