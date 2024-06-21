@@ -112,7 +112,7 @@ return `${year}-${month}-${day}`;
                     <Divider variant="inset" component="li" />
                 </div>
                 <div className="selection-action">
-                    <DeSelection id_offre={offre.id}/>
+                    <DeSelection id_offre={offre.id} setData = {setData}/>
                 </div>
             </div>
           )) : <span>Aucune offre sélectionnée.</span> : null}
