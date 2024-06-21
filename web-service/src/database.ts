@@ -30,6 +30,10 @@ export function getFirstOffres(count: number = 3): Promise<any[]> {
   return query(`SELECT * FROM offre LIMIT ${count}`);
 }
 
+export function getTotalOffresCount(): Promise<any[]> {
+  return query(`SELECT COUNT(*) FROM offre`);
+}
+
 export function getCandidateAppliedOffers(id : string): Promise<any[]> {
   return query(`SELECT * from candidat_offres as co 
     JOIN candidat ON co.candidat_id = candidat.id  
@@ -129,10 +133,9 @@ export function getOffresBySearch(search: string = '', count: number = 20, offse
                 WHERE o.titre_emploi LIKE '${search}'
                 AND m.metier LIKE '${search}'
                 AND o.description LIKE '${search}'
-                LIMIT ${count} OFFSET ${offset}
-                `);
+                LIMIT ${count} OFFSET ${offset}`);
 }
 
 export function getOffresByTitle(title: string, count: number = 50): Promise<any[]> {
-  return query(`SELECT id, titre_emploi FROM offre WHERE titre_emploi LIKE '%${title}%' LIMIT ${count} `);
+  return query(`SELECT id, titre_emploi FROM offre WHERE titre_emploi LIKE '%${title}%' LIMIT ${count}`);
 }
