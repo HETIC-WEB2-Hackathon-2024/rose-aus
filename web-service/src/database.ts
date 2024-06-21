@@ -93,7 +93,7 @@ export function disSelectedOffre(id_user:any,id_offre:any): Promise<any[]> {
   return query(`DELETE FROM selection WHERE id_offre= ${id_offre} AND id_user = ${id_user}`);
 
 }
-export function getOffres(count: number = 20000, offset: number = 0): Promise<any[]> {
+export function getOffres(count: number = 100, offset: number = 0): Promise<any[]> {
   return query(`SELECT * FROM offre LIMIT ${count} OFFSET ${offset}`);
 }
 
