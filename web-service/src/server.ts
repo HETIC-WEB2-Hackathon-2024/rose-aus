@@ -2,7 +2,7 @@ import express from "express";
 import { auth } from "express-oauth2-jwt-bearer";
 import cors from "cors";
 import { getTotalOffresCount } from "./database";
-import { getCandidats, updateCandidat } from "./database";
+import { getCandidats, updateCandidat, updateCommune} from "./database"; 
 import dashboard from "./dashboard"
 import { disSelectedOffre, getCandidatFromEmail, getFirstOffres,getSelectedOffres, isOffreSelectable, isOffreSelected, selecteOffre } from "./database";
 import { getOffres, getOffresByTitle, getOffresBySearch } from "./database";
@@ -86,11 +86,13 @@ app.get("/v2/offres", async function (_, res) {
   }
 });
 
+
 app.post("/v1/candidat/:id", async function (req, res) {
   try {
     const id = req.params.id;
     const data = req.body;
     console.log(`Received data for update: ${JSON.stringify(data)}`);
+    await updateCommune(id, data);
     const updatedCandidat = await updateCandidat(id, data);
     console.log(`Updated candidat: ${JSON.stringify(updatedCandidat)}`);
     res.status(200).send(updatedCandidat);
@@ -98,6 +100,10 @@ app.post("/v1/candidat/:id", async function (req, res) {
     console.error(`Error updating candidat: ${error}`);
   }
 })
+
+
+
+
 //Obtenir les offres sélectionnées
 app.post("/v1/selections", async function (req, res) {
   try {

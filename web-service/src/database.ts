@@ -123,13 +123,20 @@ export function getOffres(count: number = 100, offset: number = 0): Promise<any[
 }
 
 
+// export function getCandidats(): Promise<any[]> {
+//   return query(`SELECT * FROM candidat`);
+// }
+
 export function getCandidats(): Promise<any[]> {
-  return query(`SELECT * FROM candidat`);
+  return query(`
+    SELECT c.*, cc.commune_id
+    FROM candidat c
+    LEFT JOIN candidat_communes cc ON c.id = cc.candidat_id
+  `);
 }
 
-
 export async function updateCandidat(id: string, data: any): Promise<any> {
-  const { nom, prenom, email, telephone, pays } = data;
+  const { nom, prenom, email, telephone, pays} = data;
   const q = `
     UPDATE candidat
     SET 
@@ -143,9 +150,46 @@ export async function updateCandidat(id: string, data: any): Promise<any> {
   `;
   console.log(`Executing query: ${q}`);
   const res = await query(q);
+
   if (res.length === 0) throw new Error("Candidat not found");
   return res.pop();
 }
+
+export async function updateCommune(id: string, data: any): Promise<any> {
+  const {commune_id} = data;
+  const q = `
+    UPDATE candidat_communes
+    SET 
+    commune_id = '${commune_id}'
+    WHERE candidat_id = ${id};
+  `;
+}
+
+
+
+
+// commune 
+
+// export function getCandidatCommunes(): Promise<any[]> {
+//   return query(`SELECT * FROM candidat_communes`);
+// }
+
+
+// export async function updateCandidatCommune(candidat_id: string, data: any): Promise<any> {
+//   const { commune_id } = data;
+//   const q = `
+//     UPDATE candidat_communes
+//     SET 
+//       commune_id = '${commune_id}'
+//     WHERE candidat_id = ${candidat_id}
+//     RETURNING *;
+//   `;
+//   console.log(`Executing query: ${q}`);
+//   const res = await query(q);
+//   if (res.length === 0) throw new Error("Candidat Commune not found");
+//   return res.pop();
+// }
+
 
 export function getOffresBySearch(search: string = '', count: number = 20, offset: number = 0): Promise<any[]> {
   return query(`SELECT o.id, o.titre_emploi, m.metier, o.entreprise, o.lieu, o.description_courte, o.contrat, o.type_contrat, o.description, o.commune_id 
