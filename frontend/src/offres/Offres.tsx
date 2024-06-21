@@ -77,14 +77,12 @@ export function Offres() {
   };
 
   useEffect(() => {
-    if(searchTitle == ''){
-      console.log('use effect is working')
-      return;
-    } 
     async function changeSearch() {
       try {
+        const queries = new URLSearchParams({search: searchTitle.toLowerCase()})
+        const route =  searchTitle == '' ? `/v2/offres?limit=1000` : `/v1/offres/search/global?${queries}`;
         const token = await getAccessTokenSilently();
-        const response = await authenticatedGet(token, `/v1/offres/search/global/${searchTitle}`);
+        const response = await authenticatedGet(token, route);
         const { offres } = response;
         setData(offres || []);
         console.log(offres)

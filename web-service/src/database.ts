@@ -126,13 +126,12 @@ export async function updateCandidat(id: string, data: any): Promise<any> {
   return res.pop();
 }
 
-export function getOffresBySearch(search: string = '', count: number = 20, offset: number = 0): Promise<any[]> {
+export function getOffresBySearch(search: string = '', count: number = 60, offset: number = 0): Promise<any[]> {
   return query(`SELECT o.id, o.titre_emploi, m.metier, o.entreprise, o.lieu, o.description_courte, o.contrat, o.type_contrat, o.description, o.commune_id 
                 FROM offre AS o 
                 JOIN metier AS m ON o.metier_id=m.id
-                WHERE o.titre_emploi LIKE '%${search}%'
-                OR m.metier LIKE '%${search}%'
-                OR o.description LIKE '%${search}%'
+                WHERE LOWER(o.titre_emploi) LIKE '%${search}%'
+                OR LOWER(m.metier) LIKE '%${search}%'
                 LIMIT ${count} OFFSET ${offset}`);
 }
 
