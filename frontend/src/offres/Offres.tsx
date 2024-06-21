@@ -7,7 +7,6 @@ import "./index.css";
 import { Job } from "./Job";
 // import { useParams } from 'react-router-dom';
 import { ComboBox, CityComboBox } from "./Search";
-
 export function Offres() {
   const { getAccessTokenSilently } = useAuth0(); // Hook Auth0 pour obtenir un jeton d'accès
   const [loading, setLoading] = useState(true); // État pour gérer le chargement
@@ -28,7 +27,7 @@ export function Offres() {
     async function callApi() {
       try {
         const token = await getAccessTokenSilently();
-        const response = await authenticatedGet(token, `/v2/offres?limit=100000`);
+        const response = await authenticatedGet(token, `/v2/offres?limit=1000`);
         const { offres } = response;
         setAllData(offres || []);
         setFilteredData(offres || []);
@@ -139,7 +138,7 @@ export function Offres() {
             `Dashboard: response from API (with auth) ${error}`
           ) : (
             <div className="card-wrapper">
-              {filteredData?.map((offre: any) => (
+              {data?.map((offre: any) => (
                 <Details key={offre?.id} offre={offre} handleOffreClick={handleOffreClick} />
               ))}
             </div>
