@@ -2,7 +2,6 @@ import  express from "express";
 import { findOffersByCommune, findUserByEmail, findUserCommune, getCandidateAppliedOffers } from "./database";
 const router = express.Router()
 router.get("/offre_poste", async (req,res,next) => {
-    console.log(req.query);
     if (!req.query.email) 
         return res.send("email invalid")
     try {
@@ -18,14 +17,11 @@ router.get("/offre_poste", async (req,res,next) => {
 
 
 router.get("/candidat-offres-communes", async (req,res,next) => {
-    console.log(req.query, "hey");
     if (!req.query.email) 
         return res.send("email invalid")
 
     try {
         const id = await findUserByEmail(req.query.email.toString())
-        console.log({id});
-        
         const data = await findUserCommune(id)
         res.status(200).json({data})
     } catch (error) {

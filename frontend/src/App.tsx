@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Box, CssBaseline, Toolbar } from "@mui/material";
+import { Box, CssBaseline } from "@mui/material";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import Navbar from "./Navbar";
 import { AppTheme } from "./Theme";
@@ -55,7 +55,7 @@ function Layout() {
         {/* <TopMenu /> */}
         <Navbar />
         <Box component="main">
-          <Toolbar />
+          {/* <Toolbar /> */}
           <Outlet />
         </Box>
       </MainBox>
