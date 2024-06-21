@@ -78,11 +78,18 @@ export function Dashboard() {
     );
   }
   return (
-    <Box>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+      }} 
+    >
       {error ? (
         `Dashboard: response from API (with auth) ${error}`
       ) : (
-        <div style={{ display: "grid", gap: 10 }}>
+        <div style={{ width: "50vw" }}>
           <AppliedOffers data={data} />
           <div style={{ paddingTop: "20px", paddingBottom: "20px" }}>
             <Divider />
