@@ -29,7 +29,7 @@ export function Dashboard() {
         const queries = new URLSearchParams({
           email: user?.email || "",
         }).toString();
-        const document = await authenticatedGet(
+        const document= await authenticatedGet(
           token,
           "/v1/offre_poste?" + queries
         );
@@ -84,6 +84,7 @@ export function Dashboard() {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
+        width: "90vw"
       }} 
     >
       {error ? (

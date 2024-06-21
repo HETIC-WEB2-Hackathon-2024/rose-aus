@@ -1,5 +1,6 @@
 import AdbIcon from "@mui/icons-material/Adb";
 import MenuIcon from "@mui/icons-material/Menu";
+import { SvgIcon } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -12,7 +13,6 @@ import Typography from "@mui/material/Typography";
 import * as React from "react";
 import { useNavigate } from "react-router";
 import { Profile } from "./auth/Profile";
-import { SvgIcon } from "@mui/material";
 
 // const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 const menuItems: MenuItemProps[] = [
@@ -36,8 +36,8 @@ const menuItems: MenuItemProps[] = [
 
 function AppIcon() {
   return (
-  <SvgIcon><svg version="1.0" xmlns="http://www.w3.org/2000/svg"
-    width="626.000000pt" height="501.000000pt" viewBox="0 0 626.000000 501.000000"
+  <SvgIcon style={{paddingRight: "10px",width:"100px"} } ><svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+    width="500px" height="500px" viewBox="0 0 626.000000 501.000000"
     preserveAspectRatio="xMidYMid meet">
    
    <g transform="translate(0.000000,501.000000) scale(0.100000,-0.100000)"
