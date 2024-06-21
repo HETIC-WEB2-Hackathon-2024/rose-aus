@@ -163,6 +163,8 @@ export async function updateCommune(id: string, data: any): Promise<any> {
     commune_id = '${commune_id}'
     WHERE candidat_id = ${id};
   `;
+  const res = await query(q);
+  return res.pop();
 }
 
 
