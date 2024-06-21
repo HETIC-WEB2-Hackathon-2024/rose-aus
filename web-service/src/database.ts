@@ -62,10 +62,31 @@ export async function findUserCommune(id: string): Promise<any> {
 }
 
 export async function findOffersByCommune(communeId: string): Promise<any> {
-  const q = `select * from offre as o 
+  const q = `select 
+  o.id,
+  o.secteur_id,
+  o.metier_id,
+  o.titre_emploi,
+  o.entreprise,
+  o.lieu,
+  o.description_courte,
+  o.contrat,
+  o.type_contrat,
+  o.description,
+  o.commune_id,
+  co.code_commune_insee,
+  co.nom_commune_postal,
+  co.code_postal,
+  co.libelle_acheminement,
+  co.nom_commune,
+  co.nom_commune_complet,
+  co.code_departement,
+  co.nom_departement,
+  co.code_region,
+  co.nom_region 
+  from offre as o 
   join commune as co ON co.id = o.commune_id
   WHERE co.id = '${communeId}' LIMIT 10`
-  console.log({q});
 
   const res =  await query(q)
   if (res.length === 0)

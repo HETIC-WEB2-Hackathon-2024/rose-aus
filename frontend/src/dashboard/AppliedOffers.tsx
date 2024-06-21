@@ -1,12 +1,13 @@
 import { Divider } from '@mui/material'
 import { Listing } from '.'
 import { Details } from '../offres'
+import React from 'react'
 
 export default function AppliedOffers({data}: {data: any[]}) {
   return (
           <Listing title="Offres postulées">
             {data?.map((element) => (
-              <>
+              <React.Fragment key={element?.id}>
                 <Details
                   handleOffreClick={() => {}}
                   offre={{
@@ -15,7 +16,7 @@ export default function AppliedOffers({data}: {data: any[]}) {
                   }}
                 />
                 <Divider />
-              </>
+              </React.Fragment>
             ))}
           </Listing>
   )

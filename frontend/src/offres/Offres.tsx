@@ -34,8 +34,8 @@ export function Offres() {
         if (offres && offres.length > 0) {
           setSelectedOffre(offres[0]);
         }
-      } catch (error) {
-        setError(`Error from web service: ${error.message}`);
+      } catch (error: any) {
+        setError(`Error from web service: ${error?.message}`);
       } finally {
         setLoading(false);
       }
@@ -112,7 +112,7 @@ export function Offres() {
     return [...new Set(cities)].map((city) => ({ label: city }));
   };
 
-  const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
+  const handlePageChange = (_event: React.ChangeEvent<unknown>, value: number) => {
     setPage(value - 1);
   };
 
