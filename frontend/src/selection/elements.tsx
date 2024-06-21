@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Done, QuestionMark } from '@mui/icons-material';
+import { Delete, QuestionMark } from '@mui/icons-material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import Fab from '@mui/material/Fab';
 import React, { useEffect } from 'react';
@@ -44,22 +44,28 @@ export function ActionSelection({id_offre}:any) {
 
         if (select === 'select') {
             return (
-                <Fab aria-label="like" key ={id_offre+'button'} onClick={()=>SelectionActionFetch(id_offre,'add')}>
+                <div className="add-button">
+                <Fab aria-label="like" key ={id_offre+'button'} onClick={()=>SelectionActionFetch(id_offre,'add')} color="primary" size="small">
                                 <FavoriteIcon />
                 </Fab>
+                </div>
                 )
         } else if (select ==='deselect') {
             
             return (
-                <Fab  aria-label="like" key={id_offre+'button'} onClick={()=>SelectionActionFetch(id_offre,'remove')}>
-                                <FavoriteIcon component={Done}/>
-                </Fab>
+                <div className="add-button">
+                    <Fab  aria-label="like" key={id_offre+'button'} onClick={()=>SelectionActionFetch(id_offre,'remove')} color="primary"  size="small">
+                        <FavoriteIcon component={Delete}/>
+                    </Fab>
+                </div>
                 )
         } else {
             return (
-                <Fab disabled aria-label="like" key={id_offre+'button'}>
-                                <FavoriteIcon component={QuestionMark}/>
-                </Fab>
+                <div className="add-button">
+                    <Fab disabled aria-label="like" key={id_offre+'button'} size="small">
+                            <FavoriteIcon component={QuestionMark}/>
+                    </Fab>
+                </div>
                 )
         }
     
@@ -88,7 +94,7 @@ export function DeSelection({setData, id_offre}:any) {
 
     return (
         <Fab aria-label="like" onClick={removeSelection}>
-            <FavoriteIcon component={Done}/>
+            <FavoriteIcon component={Delete}/>
         </Fab>
     )
 }

@@ -1,6 +1,7 @@
 import express from "express";
 import { auth } from "express-oauth2-jwt-bearer";
 import cors from "cors";
+import { getTotalOffresCount } from "./database";
 import { getCandidats, updateCandidat } from "./database";
 import dashboard from "./dashboard"
 import { disSelectedOffre, getCandidatFromEmail, getFirstOffres,getSelectedOffres, isOffreSelectable, isOffreSelected, selecteOffre } from "./database";
@@ -54,6 +55,16 @@ app.get("/v1/offres", async function (_, res) {
   }
 });
 
+app.get("/v2/offres", async function (req, res) {
+  try {
+    const { limit = 30, offset = 0 } = req.query;
+    const offres = await getOffres(parseInt(limit as string), parseInt(offset as string));
+    const total = await getTotalOffresCount();
+    res.send({ offres, total: total[0].count });
+  } catch (error) {
+    res.status(500).send({ error: "Internal Server Error", reason: error });
+  }
+});
 app.use("/v1", dashboard)
 
 app.get("/v1/candidats", async function (_, res) {
@@ -69,7 +80,7 @@ app.get("/v2/offres", async function (_, res) {
   try {
     const offres = await getOffres();
 
-    res.send(offres);
+    res.send(offres);  
   } catch (error) {
     res.status(500).send({ error: "Internal Server Error", reason: error });
   }
@@ -161,7 +172,7 @@ app.post("/v1/selection/check/:id_offre", async function (req, res) {
 app.get("/v1/offres/search/global/:search", async function (req, res) {
   try {
     const offres = await getOffresBySearch(req.params.search);
-    res.send(offres);
+    res.json({offres});
   } catch (error) {
     res.status(500).send({ error: "Internal Server Error", reason: error });
   }

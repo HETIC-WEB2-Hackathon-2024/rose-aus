@@ -1,13 +1,13 @@
 import styled from "@emotion/styled";
-import { Box, CssBaseline, Toolbar } from "@mui/material";
+import { Box, CssBaseline } from "@mui/material";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
-import { TopMenu } from "./TopMenu";
-import { Dashboard } from "./dashboard";
-import { Parametres } from "./parametres/Parametres";
+import Navbar from "./Navbar";
 import { AppTheme } from "./Theme";
-import { DeSelection } from "./selection/delete";
-import { Selection } from "./selection";
+import { Dashboard } from "./dashboard";
 import { Offres } from "./offres";
+import { Parametres } from "./parametres/Parametres";
+import { Selection } from "./selection";
+import { DeSelection } from "./selection/delete";
 
 const router = createBrowserRouter([
   {
@@ -52,9 +52,10 @@ function Layout() {
     <AppTheme>
       <MainBox>
         <CssBaseline />
-        <TopMenu />
+        {/* <TopMenu /> */}
+        <Navbar />
         <Box component="main">
-          <Toolbar />
+          {/* <Toolbar /> */}
           <Outlet />
         </Box>
       </MainBox>
