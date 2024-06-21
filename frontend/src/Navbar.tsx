@@ -13,7 +13,6 @@ import Typography from "@mui/material/Typography";
 import * as React from "react";
 import { useNavigate } from "react-router";
 import { Profile } from "./auth/Profile";
-
 // const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 const menuItems: MenuItemProps[] = [
   {
