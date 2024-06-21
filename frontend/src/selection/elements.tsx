@@ -65,17 +65,30 @@ export function ActionSelection({id_offre}:any) {
     
 }
 
-export function DeSelection({id_offre}:any) {
-  
-    function deselectUrlReturner(id_offre :any) {
-        return `/selection/remove/${id_offre}`
-      }
+export function DeSelection({setData, id_offre}:any) {
+
+
+  const { getAccessTokenSilently } = useAuth0();
+  const { user} = useAuth0();
+
+  async function removeSelection () {        
+    try {
+        const token = await getAccessTokenSilently()
+
+        const res = await authenticatedPost(token, `/v1/selection/remove/${id_offre}`,{email : user?.email})
+
+        if (res.status === 201) {
+            setData((data:any) => data.filter((ele :any)=> ele.id !== id_offre))
+        }
+
+      } catch (error) {
+        console.log(error);
+      }      
+    }
 
     return (
-        <a href={deselectUrlReturner(id_offre)}>
-        <Fab disabled aria-label="like">
-            <FavoriteIcon />
+        <Fab aria-label="like" onClick={removeSelection}>
+            <FavoriteIcon component={Done}/>
         </Fab>
-    </a>
     )
 }
