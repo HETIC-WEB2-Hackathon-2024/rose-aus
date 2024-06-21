@@ -11,7 +11,7 @@ import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import { DeSelection } from "./elements";
 import { authenticatedPost } from "../auth/helper";
-
+import { Link } from "react-router-dom";
 export function Selection() {
   const { getAccessTokenSilently } = useAuth0();
   const [loading, setLoading] = React.useState(true);
@@ -84,7 +84,7 @@ return `${year}-${month}-${day}`;
                             <WorkIcon />
                         </ListItemIcon>
                     <ListItemText
-                        primary={<a href={"/offres/"+offre.id}>{offre.titre_emploi}</a>}
+                        primary={<Link to={"/offres/"+offre.id}>{offre.titre_emploi}</Link>}
                         secondary={
                         <React.Fragment>
                             <Typography
