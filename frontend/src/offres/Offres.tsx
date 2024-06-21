@@ -2,10 +2,10 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Box, Modal, IconButton, Pagination } from "@mui/material";
 import { useEffect, useState } from "react";
 import { authenticatedGet } from "../auth/helper";
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from "@mui/icons-material/Close";
 import "./index.css";
 import { Job } from "./Job";
-// import { useParams } from 'react-router-dom';
+import { useParams } from "react-router-dom";
 import { ComboBox, CityComboBox } from "./Search";
 export function Offres() {
   const { getAccessTokenSilently } = useAuth0(); // Hook Auth0 pour obtenir un jeton d'accès
@@ -19,10 +19,10 @@ export function Offres() {
   const [modalOpen, setModalOpen] = useState(false); // État pour gérer l'ouverture/fermeture de la modal
   const [page, setPage] = useState(0); // État pour gérer la pagination
   const itemsPerPage = 30; // Nombre d'éléments par page
-  const [searchTitle, setSearchTitle] = useState<string>(''); // État pour stocker le terme de recherche par titre
-  const [searchCity, setSearchCity] = useState<string>(''); // État pour stocker le terme de recherche par ville
+  const [searchTitle, setSearchTitle] = useState<string>(""); // État pour stocker le terme de recherche par titre
+  const [searchCity, setSearchCity] = useState<string>(""); // État pour stocker le terme de recherche par ville
   const [availableCities, setAvailableCities] = useState<any[]>([]); // État pour stocker les villes disponibles pour la recherche
-
+  const { id } = useParams();
   useEffect(() => {
     async function callApi() {
       try {
@@ -34,8 +34,11 @@ export function Offres() {
         if (offres && offres.length > 0) {
           setSelectedOffre(offres[0]);
         }
+        if (id) {
+          handleOffreClick(offres?.find((el: any) => el.id == id));
+        }
       } catch (error: any) {
-        setError(`Error from web service: ${error?.message}`);
+        setError(`Error from web service: ${error.message}`);
       } finally {
         setLoading(false);
       }
@@ -46,8 +49,8 @@ export function Offres() {
       setIsMobile(window.innerWidth <= 600);
     };
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, [getAccessTokenSilently]);
 
   const handleOffreClick = (offre: any) => {
@@ -64,9 +67,10 @@ export function Offres() {
   const filterData = () => {
     const lowercasedTitle = searchTitle.toLowerCase();
     const lowercasedCity = searchCity.toLowerCase();
-    const filtered = allData.filter((offre: any) => 
-      offre.titre_emploi.toLowerCase().includes(lowercasedTitle) &&
-      offre.lieu.toLowerCase().includes(lowercasedCity)
+    const filtered = allData.filter(
+      (offre: any) =>
+        offre.titre_emploi.toLowerCase().includes(lowercasedTitle) &&
+        offre.lieu.toLowerCase().includes(lowercasedCity)
     );
     setFilteredData(filtered);
     setPage(0);
@@ -112,7 +116,10 @@ export function Offres() {
     return [...new Set(cities)].map((city) => ({ label: city }));
   };
 
-  const handlePageChange = (_event: React.ChangeEvent<unknown>, value: number) => {
+  const handlePageChange = (
+    _event: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
     setPage(value - 1);
   };
 
@@ -132,14 +139,24 @@ export function Offres() {
           value={searchCity}
         />
       </div>
-      <div className={`page-wrapper ${isMobile && selectedOffre ? "mobile" : ""}`}>
-        <div className={`offres-list ${isMobile && selectedOffre ? "mobile-hide" : ""}`}>
+      <div
+        className={`page-wrapper ${isMobile && selectedOffre ? "mobile" : ""}`}
+      >
+        <div
+          className={`offres-list ${
+            isMobile && selectedOffre ? "mobile-hide" : ""
+          }`}
+        >
           {error ? (
             `Dashboard: response from API (with auth) ${error}`
           ) : (
             <div className="card-wrapper">
               {data?.map((offre: any) => (
-                <Details key={offre?.id} offre={offre} handleOffreClick={handleOffreClick} />
+                <Details
+                  key={offre?.id}
+                  offre={offre}
+                  handleOffreClick={handleOffreClick}
+                />
               ))}
             </div>
           )}
@@ -164,26 +181,40 @@ export function Offres() {
         </Modal>
       </div>
       <div className="pagination-wrapper">
-        <Pagination 
-          count={Math.ceil(filteredData.length / itemsPerPage)} 
-          page={page + 1} 
-          onChange={handlePageChange} 
-          color="primary" 
+        <Pagination
+          count={Math.ceil(filteredData.length / itemsPerPage)}
+          page={page + 1}
+          onChange={handlePageChange}
+          color="primary"
         />
       </div>
     </div>
   );
 }
 
-export function Details({offre, handleOffreClick}:{offre: any, handleOffreClick: (offre: any) => void}) {
-  return <div key={offre.id} className="card" onClick={() => handleOffreClick(offre)}>
-    <div className="card-content">
-      <h3>{offre.titre_emploi}</h3>
-      <div className="infos">
-        <span>{offre.contrat}&nbsp;-&nbsp;{offre.type_contrat}</span>
-        <span>{offre.lieu}</span>
+export function Details({
+  offre,
+  handleOffreClick,
+}: {
+  offre: any;
+  handleOffreClick: (offre: any) => void;
+}) {
+  return (
+    <div
+      key={offre.id}
+      className="card"
+      onClick={() => handleOffreClick(offre)}
+    >
+      <div className="card-content">
+        <h3>{offre.titre_emploi}</h3>
+        <div className="infos">
+          <span>
+            {offre.contrat}&nbsp;-&nbsp;{offre.type_contrat}
+          </span>
+          <span>{offre.lieu}</span>
+        </div>
+        <p>{offre.description_courte}</p>
       </div>
-      <p>{offre.description_courte}</p>
     </div>
-  </div>;
+  );
 }
