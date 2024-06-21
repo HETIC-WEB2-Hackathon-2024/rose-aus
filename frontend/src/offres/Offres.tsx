@@ -72,9 +72,32 @@ export function Offres() {
     setPage(0);
   };
 
-  const handleSearchChange = (value: string) => {
+  const handleSearchChange = async (value: string) => {
     setSearchTitle(value);
   };
+
+  useEffect(() => {
+    if(searchTitle == ''){
+      console.log('use effect is working')
+      return;
+    } 
+    async function changeSearch() {
+      try {
+        const token = await getAccessTokenSilently();
+        const response = await authenticatedGet(token, `/v1/offres/search/global/${searchTitle}`);
+        const { offres } = response;
+        setData(offres || []);
+        console.log(offres)
+        // setFilteredData(offres || []);
+        // if (offres && offres.length > 0) {
+        //   setSelectedOffre(offres[0]);
+        // }
+      } catch (error: any) {
+        setError(`Error from web service: ${error.message}`);
+      }
+    }
+    changeSearch();
+  }, [searchTitle])
 
   const handleCitySearchChange = (value: string) => {
     setSearchCity(value);

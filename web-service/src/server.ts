@@ -172,7 +172,7 @@ app.post("/v1/selection/check/:id_offre", async function (req, res) {
 app.get("/v1/offres/search/global/:search", async function (req, res) {
   try {
     const offres = await getOffresBySearch(req.params.search);
-    res.send(offres);
+    res.json({offres});
   } catch (error) {
     res.status(500).send({ error: "Internal Server Error", reason: error });
   }

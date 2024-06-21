@@ -130,9 +130,9 @@ export function getOffresBySearch(search: string = '', count: number = 20, offse
   return query(`SELECT o.id, o.titre_emploi, m.metier, o.entreprise, o.lieu, o.description_courte, o.contrat, o.type_contrat, o.description, o.commune_id 
                 FROM offre AS o 
                 JOIN metier AS m ON o.metier_id=m.id
-                WHERE o.titre_emploi LIKE '${search}'
-                AND m.metier LIKE '${search}'
-                AND o.description LIKE '${search}'
+                WHERE o.titre_emploi LIKE '%${search}%'
+                OR m.metier LIKE '%${search}%'
+                OR o.description LIKE '%${search}%'
                 LIMIT ${count} OFFSET ${offset}`);
 }
 
